@@ -21,11 +21,8 @@ def main():
 
     # Show information
     st.title('GPT-3 chatbot')
-    st.info('Your goal is to **find out the information** with GPT-3 about **black lives matter**. Please remain seated and do not be distracted by the bot.')
+    st.info('Your goal is to **find out the information** with GPT-3 about **WHATEVER TOPIC WE DECIDED HERE**.  You should chat for at least 6 rounds and at most 12 rounds with the chatbot. Please stay on topic as we will NOT approve coversations that are fully off-topic.')
     
-    image = Image.open('sunrise.jpg')
-
-    st.image(image, caption='Sunrise by the mountains')
 
     # Show chat history
     st.text_area(
