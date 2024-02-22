@@ -4,7 +4,6 @@ from utils.session import session_setup, modify_prompt, modify_chat_history
 from utils.components import show_response_count, finish_button, show_finish_status
 from utils.chatbot import get_response
 from utils.database import submit_to_database
-from PIL import Image
 
 
 st.set_page_config(
@@ -21,7 +20,7 @@ def main():
 
     # Show information
     st.title('GPT-3 chatbot')
-    st.info('Your goal is to **find out the information** with GPT-3 about **WHATEVER TOPIC WE DECIDED HERE**.  You should chat for at least 6 rounds and at most 12 rounds with the chatbot. Please stay on topic as we will NOT approve coversations that are fully off-topic.')
+    st.info('Your goal is to **find out the information** with GPT-3 about **WHATEVER TOPIC WE DECIDED HERE**.)
     
 
     # Show chat history
