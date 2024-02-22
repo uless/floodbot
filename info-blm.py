@@ -20,7 +20,7 @@ def main():
 
     # Show information
     st.title('GPT-4 chatbot')
-    st.info('Your goal is to **find out the information** with GPT-3 about **WHATEVER TOPIC WE DECIDED HERE**.')
+    st.info('Your goal is to **find out the information** with GPT-4 about **WHATEVER TOPIC WE DECIDED HERE**.')
     
 
     # Show chat history
