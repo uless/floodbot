@@ -1,6 +1,9 @@
 import streamlit as st
 import openai
 
+from openai import OpenAI
+client = OpenAI()
+
 
 minimum_responses = 6
 warning_responses = 10
@@ -55,8 +58,8 @@ def request_response(user_input):
     prompt = st.session_state['prompt']
     prompt = prompt + 'Human: ' + user_input + '\n' + 'AI:'
 
-    response = openai.Completion.create(
-        engine="davinci",
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
         prompt=prompt,
         temperature=0.9,
         max_tokens=150,
@@ -66,6 +69,18 @@ def request_response(user_input):
         stop=["\n", " Human:", " AI:"],
         user=st.session_state['survey_id']
     )
+
+   # response = openai.Completion.create(
+   #     engine="davinci",
+   #     prompt=prompt,
+   #     temperature=0.9,
+   #     max_tokens=150,
+   #     top_p=1,
+   #     frequency_penalty=0,
+   #     presence_penalty=0.6,
+   #     stop=["\n", " Human:", " AI:"],
+   #     user=st.session_state['survey_id']
+   # )
 
     content = response.choices[0].text
 
