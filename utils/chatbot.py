@@ -56,7 +56,7 @@ def request_response(user_input):
     prompt = prompt + 'Human: ' + user_input + '\n' + 'AI:'
 
     response = openai.Completion.create(
-        engine="davinci",
+        engine="gpt-3.5-turbo",
         prompt=prompt,
         temperature=0.9,
         max_tokens=150,
@@ -91,7 +91,7 @@ def get_response(user_input):
 
     # Preliminary hello input
     if user_input in ['Hello', 'hello', 'Hello!', 'Hi', 'hi', 'HI', 'Hi!']:
-        return 'Hello! I am the AI assistant. What can I do for you today?'
+        return 'Hello! I am the AI assistant. Let's chat about [WHATEVER TOPICS WE DECIDED] today.'
 
     # Get response from gpt-3
     response = request_response(user_input)
