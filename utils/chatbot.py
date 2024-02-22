@@ -56,7 +56,7 @@ def request_response(user_input):
     prompt = prompt + 'Human: ' + user_input + '\n' + 'AI:'
 
     response = openai.Completion.create(
-        engine="gpt-3.5-turbo",
+        engine="davinci",
         prompt=prompt,
         temperature=0.9,
         max_tokens=150,
