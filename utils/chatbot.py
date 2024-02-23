@@ -58,7 +58,7 @@ def request_response(user_input):
     response = openai.ChatCompletion.create(
         model="gpt-4",
         messages = [
-            {'role': 'user', 'content': prompt}
+            {role: 'user', content: prompt}
                    ],
         temperature = 0  
     )
