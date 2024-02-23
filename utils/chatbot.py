@@ -55,9 +55,9 @@ def request_response(user_input):
     prompt = st.session_state['prompt']
     prompt = prompt + 'Human: ' + user_input + '\n' + 'AI:'
     
-    response = openai.Completion.create(
-        model="gpt-3.5-turbo",
-        messages=prompt
+    response = openai.ChatCompletion.create(
+        model="gpt-4",
+        prompt=prompt
     )
 
    # response = openai.Completion.create(
