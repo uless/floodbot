@@ -57,7 +57,7 @@ def request_response(user_input):
     
     response = openai.Completion.create(
         model="gpt-3.5-turbo",
-        messages=[{'role':'user','content'=prompt}]
+        messages=prompt
     )
 
    # response = openai.Completion.create(
