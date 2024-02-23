@@ -60,5 +60,5 @@ def modify_chat_history(user_input, response):
 
     history = st.session_state['chat_history']
     history = history + 'Participant: ' + user_input + '\n'
-    history = history + 'GPT-3: ' + response + '\n'
+    history = history + 'GPT-4: ' + response + '\n'
     st.session_state['chat_history'] = history
