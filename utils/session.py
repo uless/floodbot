@@ -26,7 +26,7 @@ def get_survey_id():
 def session_setup():
 
     if 'prompt' not in st.session_state:
-        st.session_state['prompt'] = '''The following is a conversation with an AI assistant. The assistant is helpful, creative, clever, and very friendly.\n\n'''
+        st.session_state['prompt'] = '''The following is a conversation with an AI assistant. The assistant is helpful, clever, and very friendly.\n\n'''
 
     if 'chat_history' not in st.session_state:
         st.session_state['chat_history'] = 'Your chat with GPT-4 will appear here!\n\n'
