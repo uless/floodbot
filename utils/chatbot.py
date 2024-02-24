@@ -59,7 +59,7 @@ def request_response(user_input):
         model="gpt-4",
         messages=[{"role": "user", "content": prompt}],
         temperature = 0,
-        max_tokens=150
+        max_tokens=200
     )
 
    # response = openai.Completion.create(
@@ -99,8 +99,8 @@ def get_response(user_input):
         return None
 
     # Preliminary hello input
-    #if user_input in ['Hello', 'hello', 'Hello!', 'Hi', 'hi', 'HI', 'Hi!']:
-    #    return 'Hello! I am the AI assistant. Let us chat about brain chips today.'
+    if user_input in ['Hello', 'hello', 'Hello!', 'Hi', 'hi', 'HI', 'Hi!']:
+        return 'Hello! I am the AI assistant. Let us chat about brain chips today.'
 
     # Get response from gpt-3
     response = request_response(user_input)
