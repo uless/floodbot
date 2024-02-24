@@ -2,9 +2,9 @@ import streamlit as st
 import openai
 
 
-minimum_responses = 6
-warning_responses = 10
-maximum_responses = 12
+minimum_responses = 5
+warning_responses = 8
+maximum_responses = 10
 
 
 # Perform content filter to the response from chatbot
@@ -56,7 +56,7 @@ def request_response(user_input):
     prompt = prompt + 'Human: ' + user_input + '\n' + 'AI:'
     
     response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
+        model="gpt-4",
         messages=[{"role": "user", "content": prompt}],
         temperature = 0,
         max_tokens=150
@@ -100,7 +100,7 @@ def get_response(user_input):
 
     # Preliminary hello input
     if user_input in ['Hello', 'hello', 'Hello!', 'Hi', 'hi', 'HI', 'Hi!']:
-        return 'Hello! I am the AI assistant. Let us chat about WHATEVER TOPICS WE DECIDED today.'
+        return 'Hello! I am the AI assistant. Let us chat about brain chips today.'
 
     # Get response from gpt-3
     response = request_response(user_input)
