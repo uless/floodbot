@@ -3,8 +3,8 @@ import openai
 
 
 minimum_responses = 5
-warning_responses = 8
-maximum_responses = 10
+warning_responses = 10
+maximum_responses = 15
 
 
 # Perform content filter to the response from chatbot
