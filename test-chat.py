@@ -32,23 +32,23 @@ def main():
             st.markdown(message["content"])
 
     # Accept user input
-    if prompt := st.chat_input("What is up?"):
+    if user_input := st.chat_input("What is up?"):
         # Add user message to chat history
-        st.session_state.messages.append({"role": "user", "content": prompt})
+        st.session_state.messages.append({"role": "user", "content": user_input})
         # Display user message in chat message container
         with st.chat_message("user"):
-            st.markdown(prompt)
+            st.markdown(user_input)
 
         # Display assistant response in chat message container
         with st.chat_message("assistant"):
-            response = st.write_stream(get_response(prompt))
+            response = st.write_stream(get_response(user_input))
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
         # Modify prompt
-        modify_prompt(prompt, response)
+        modify_prompt(user_input, response)
 
         # Modify chat history
-        modify_chat_history(prompt, response)
+        modify_chat_history(user_input, response)
 
         # Increment response count
         st.session_state['response_count'] += 1
