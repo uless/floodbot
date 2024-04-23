@@ -41,14 +41,17 @@ def main():
 
         # Display assistant response in chat message container
         with st.chat_message("assistant"):
-            response = st.write(get_response(user_input))
-            # Add assistant response to chat history
-            st.session_state.messages.append({"role": "assistant", "content": response})
+            response_gen = get_response(user_input)
+            response = st.write_stream(response_gen)
+            
+            # Add assistant response to chat history, check indense
+            st.session_state.messages.append({"role": "assistant", "content": response_gen})
+            
             # Modify prompt
-            modify_prompt(user_input, response)
+            modify_prompt(user_input, response_gen)
 
             # Modify chat history
-            modify_chat_history(user_input, response)
+            modify_chat_history(user_input, response_gen)
 
             # Increment response count
             st.session_state['response_count'] += 1
