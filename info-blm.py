@@ -1,4 +1,5 @@
 import streamlit as st
+from streamlit_chat import message
 
 from utils.session import session_setup, modify_prompt, modify_chat_history
 from utils.components import show_response_count, finish_button, show_finish_status
@@ -8,10 +9,11 @@ from utils.database import submit_to_database
 
 st.set_page_config(
     layout='wide',
-    page_title='GPT-4 chatbot',
+    page_title='GPT-4 batchot',
     page_icon='🤖'
 )
 
+st.markdown("<h1 style='text-align: center;'>BatChPT - a fun chatbot 😬</h1>", unsafe_allow_html=True)
 
 def main():
 
@@ -37,8 +39,13 @@ def main():
         key=str(st.session_state['response_count'])
     )
 
-    # Get the response from gpt-3 (None if not possible)
+    # Get the response from gpt-4 (None if not possible)
     response = get_response(user_input)
+
+    # container for chat history
+    response_container = st.container()
+    # container for text box
+    container = st.container()
 
     # Save response
     if response != None:
