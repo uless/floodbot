@@ -28,7 +28,7 @@ def main():
     # container for text box
     container = st.container()
 
-      with st.container():
+    with st.container():
         user_input = st.text_input('You: (write your response here)', value='', key=str(st.session_state['response_count']))
 
 
