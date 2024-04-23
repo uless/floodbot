@@ -13,26 +13,13 @@ st.set_page_config(
     page_icon='🤖'
 )
 
-# Streamed response emulator
-def response_generator():
-    response = random.choice(
-        [
-            "Hello there! How can I assist you today?",
-            "Hi, human! Is there anything I can help you with?",
-            "Do you need help?",
-        ]
-    )
-    for word in response.split():
-        yield word + " "
-        time.sleep(0.05)
-
 def main():
 
     # Set up session
     session_setup()
 
     # Show information
-    st.title('Welcome to the chat!')
+    st.title('都给👴聊 聊不完别想走')
     st.info('Your goal is to find out the information with GPT-4 about **BRAIN CHIPS**. Please stay on topic!')
     
     # Initialize chat history
@@ -54,9 +41,37 @@ def main():
 
         # Display assistant response in chat message container
         with st.chat_message("assistant"):
-            response = st.write_stream(response_generator())
+            response = st.write_stream(get_response(user_input))
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
+
+    # Save response
+    if response != None:
+
+        # Modify prompt
+        modify_prompt(user_input, response)
+
+        # Modify chat history
+        modify_chat_history(user_input, response)
+
+        # Increment response count
+        st.session_state['response_count'] += 1
+
+        # Rerun page
+        st.experimental_rerun()
+
+    # Show response count
+    show_response_count()
+
+    # Update session status
+    finish_button()
+
+    # Show finish status
+    show_finish_status()
+
+    # Submit survey to database if finished
+    submit_to_database('info-blm')
+    
 
 if __name__ == '__main__':
     main()
