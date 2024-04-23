@@ -42,7 +42,7 @@ def main():
         # Display assistant response in chat message container
         with st.chat_message("assistant"):
             response_gen = get_response(user_input)
-            response = st.write_stream(response_gen)
+            response = st.write(response_gen)
             
             # Add assistant response to chat history, check indense
             st.session_state.messages.append({"role": "assistant", "content": response_gen})
