@@ -41,7 +41,7 @@ def main():
 
         # Display assistant response in chat message container
         with st.chat_message("assistant"):
-            response = st.write_stream(get_response(user_input))
+            response = st.write(get_response(user_input))
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
         # Modify prompt
