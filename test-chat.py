@@ -44,10 +44,6 @@ def main():
             response = st.write_stream(get_response(user_input))
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
-
-    # Save response
-    if response != None:
-
         # Modify prompt
         modify_prompt(user_input, response)
 
