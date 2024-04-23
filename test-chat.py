@@ -45,10 +45,10 @@ def main():
         # Add assistant response to chat history
         st.session_state.messages.append({"role": "assistant", "content": response})
         # Modify prompt
-        modify_prompt(user_input, response)
+        modify_prompt(prompt, response)
 
         # Modify chat history
-        modify_chat_history(user_input, response)
+        modify_chat_history(prompt, response)
 
         # Increment response count
         st.session_state['response_count'] += 1
