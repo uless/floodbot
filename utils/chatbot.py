@@ -1,10 +1,10 @@
 import streamlit as st
 import openai
+from streamlit_chat import message
 
-
-minimum_responses = 5
-warning_responses = 10
-maximum_responses = 15
+minimum_responses = 10
+warning_responses = 17
+maximum_responses = 20
 
 
 # Perform content filter to the response from chatbot
@@ -59,7 +59,7 @@ def request_response(user_input):
         model="gpt-4",
         messages=[{"role": "user", "content": prompt}],
         temperature = 0,
-        max_tokens=200
+        max_tokens=300
     )
 
    # response = openai.Completion.create(
