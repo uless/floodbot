@@ -13,7 +13,7 @@ st.set_page_config(
     page_icon='🤖'
 )
 
-st.markdown("<h1 style='text-align: center;'>BatChPT - a fun chatbot 😬</h1>", unsafe_allow_html=True)
+st.markdown("<h1 style='text-align: center;'>BatChPT 😬</h1>", unsafe_allow_html=True)
 
 def main():
 
@@ -23,52 +23,34 @@ def main():
     # Show information
     st.title('GPT-4 chatbot')
     st.info('Your goal is to find out the information with GPT-4 about **BRAIN CHIPS**. Please stay on topic!')
-    
-
-    # Show chat history
-    st.text_area(
-        'Chat history',
-        value=st.session_state['chat_history'],
-        height=500
-    )
-
-    # Get the user input
-    user_input = st.text_input(
-        'You: (write your response here)',
-        value='',
-        key=str(st.session_state['response_count'])
-    )
-
-    # Get the response from gpt-4 (None if not possible)
-    response = get_response(user_input)
-
     # container for chat history
     response_container = st.container()
     # container for text box
     container = st.container()
 
-    # Save response
-    if response != None:
+      with st.container():
+        user_input = st.text_input('You: (write your response here)', value='', key=str(st.session_state['response_count']))
 
-        # Modify prompt
-        modify_prompt(user_input, response)
 
-        # Modify chat history
-        modify_chat_history(user_input, response)
+        # Get the response from gpt-4 (None if not possible)
+        response = get_response(user_input)
 
-        # Increment response count
-        st.session_state['response_count'] += 1
+        if response:
+            # Modify prompt and chat history
+            modify_prompt(user_input, response)
+            modify_chat_history(user_input, response)
 
-        # Rerun page
-        st.experimental_rerun()
+            # Update chat history display using streamlit_chat
+            message(user_input, is_user=True)
+            message(response)
 
-    # Show response count
+            # Increment response count and rerun page to update
+            st.session_state['response_count'] += 1
+            st.experimental_rerun()
+
+    # Show additional UI components
     show_response_count()
-
-    # Update session status
     finish_button()
-
-    # Show finish status
     show_finish_status()
 
     # Submit survey to database if finished
