@@ -100,7 +100,7 @@ def get_response(user_input):
 
     # Preliminary hello input
     if user_input in ['Hello', 'hello', 'Hello!', 'Hi', 'hi', 'HI', 'Hi!']:
-        return 'Hello! I am the AI assistant. Let us chat about brain chips today.'
+        return 'Hello! I am the AI assistant. Let us chat about human gene editing today.'
 
     # Get response from gpt-3
     response = request_response(user_input)
