@@ -78,8 +78,9 @@ def request_response(user_input):
 
     content = response["choices"][0]["message"]["content"]
 
-    if content_filter(content) != '2':
-        return content
+    #if content_filter(content) != '2':
+    #    return content
+    return content
     return request_response(user_input)
 
 
