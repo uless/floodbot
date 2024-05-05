@@ -59,7 +59,7 @@ def request_response(user_input):
         model="gpt-4-turbo",
         messages=[{"role": "user", "content": prompt}],
         temperature = 0
-        #max_tokens=300
+        max_tokens=500
     )
 
    # response = openai.Completion.create(
@@ -78,8 +78,8 @@ def request_response(user_input):
 
     content = response["choices"][0]["message"]["content"]
 
-    #if content_filter(content) != '2':
-        #return content
+    if content_filter(content) != '2':
+        return content
     return request_response(user_input)
 
 
