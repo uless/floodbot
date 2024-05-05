@@ -19,8 +19,8 @@ def main():
     session_setup()
 
     # Show information
-    st.title('都给👴聊 聊不完别想走')
-    st.info('Your goal is to find out the information with GPT-4 about **BRAIN CHIPS**. Please stay on topic!')
+    st.title('AI chatbot for science')
+    st.info('Your goal is to find out the information with GPT-4 about **human gene editing**. Please stay on topic!')
     
     # Initialize chat history
     if "messages" not in st.session_state:
