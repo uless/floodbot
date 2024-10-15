@@ -8,12 +8,12 @@ from utils.chatbot import get_response
 from utils.database import submit_to_database
 
 st.set_page_config(
-    layout='wide',
+    layout='centered',
     page_title='Floods|Ready.gov',
-    page_icon='🤖'
+    page_icon='✅'
 )
 
-# Apply custom CSS for background color and title styling
+# Apply custom CSS for aggressive styling
 def set_background():
     st.markdown(
         """
@@ -25,18 +25,18 @@ def set_background():
             color: #4C9900; /* Floodready.gov for the title */
             font-size: 50px;
             font-weight: bold;
-        .flood-warning {
-            background-color: white; 
-            color: black; 
-            padding: 20px; 
-            font-weight: bold;
-            font-size: 18px;
         }
         .flood-title {
-            color: #000000
+            color: #000000; /* Black font for the title */
             font-size: 36px;
             font-weight: bold;
         }
+        .flood-warning {
+            background-color: white; 
+            color: black; /* Black font for the warning */
+            padding: 20px; 
+            font-weight: bold;
+            font-size: 18px;
         }
         </style>
         """,
@@ -85,7 +85,6 @@ def main():
     unsafe_allow_html=True
 )
     
-
      # Set up chat session
     session_setup()
     
