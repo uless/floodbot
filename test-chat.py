@@ -25,6 +25,18 @@ def set_background():
             color: #4C9900; /* Floodready.gov for the title */
             font-size: 50px;
             font-weight: bold;
+        .flood-warning {
+            background-color: white; 
+            color: black; 
+            padding: 20px; 
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .flood-title {
+            color: #000000
+            font-size: 36px;
+            font-weight: bold;
+        }
         }
         </style>
         """,
@@ -34,16 +46,50 @@ def set_background():
 def main():
     set_background()
 
-    # Set up session
-    session_setup()
-
     # Show information with a styled title
     st.markdown('<div class="big-title">Get Ready for Floods</div>', unsafe_allow_html=True)
-    st.info('Your goal is to find out the information with GPT-4 about **human gene editing**. Please stay on topic!')
+
+    # Display the title
+    st.markdown('<div class="flood-title">Staying Safe During a Flood</div>', unsafe_allow_html=True)
+
+    # Display flood warning image
+    st.image('floodwarn.png', caption='Staying Safe During a Flood')
+
+    # Display flood warning information with aggressive styling
+    st.markdown(
+        """
+        <div class="flood-warning">
+        ✅ Evacuate immediately if told to evacuate. Never drive around barricades. Local responders use them to safely direct traffic out of flooded areas.<br><br>
+        ✅ Contact your healthcare provider if you are sick and need medical attention. Wait for further care instructions and shelter in place if possible. If you are experiencing a medical emergency, call 9-1-1.<br><br>
+        ✅ Listen to EAS, NOAA Weather Radio, or local alerting systems for current emergency information and instructions regarding flooding.<br><br>
+        ✅ Do not walk, swim, or drive through flood waters. <strong>Turn Around. Don’t Drown!</strong><br><br>
+        ✅ Stay off bridges over fast-moving water. Fast-moving water can wash bridges away without warning.<br><br>
+        ✅ Stay inside your car if it is trapped in rapidly moving water. Get on the roof if water is rising inside the car.<br><br>
+        ✅ Get to the highest level if trapped in a building. Only get on the roof if necessary and once there, signal for help. Do not climb into a closed attic to avoid getting trapped by rising floodwater.<br><br>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+    
+    st.markdown(
+    """
+    <div style="
+        background-color: white; 
+        color: black; 
+        padding: 10px; 
+        border-radius: 5px; 
+        border: 1px solid #ccc;">
+        Your goal is to find out the information with GPT-4 about <b>human gene editing</b>. Please stay on topic!
+    </div>
+    """,
+    unsafe_allow_html=True
+)
     
     # Add in-page hyperlink to the instructions
     st.markdown("[Click here to learn more about gene editing](#)", unsafe_allow_html=True)
 
+     # Set up chat session
+    session_setup()
     
     # Initialize chat history
     if "messages" not in st.session_state:
