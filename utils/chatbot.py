@@ -2,9 +2,9 @@ import streamlit as st
 import openai
 from streamlit_chat import message
 
-minimum_responses = 10
-warning_responses = 15
-maximum_responses = 20
+minimum_responses = 2
+warning_responses = 4
+maximum_responses = 6
 
 
 # Perform content filter to the response from chatbot
@@ -54,13 +54,28 @@ def request_response(user_input):
 
     prompt = st.session_state['prompt']
     prompt = prompt + 'Human: ' + user_input + '\n' + 'AI:'
+
+     response_content = ""
     
     response = openai.ChatCompletion.create(
-        model="gpt-4",
+        model="gpt-4o",
         messages=[{"role": "user", "content": prompt}],
         temperature = 0,
-        max_tokens=500
+        max_tokens=500,
+        stream=True
     )
+
+    # Stream the response and update the UI incrementally
+    message_placeholder = st.empty()  # Placeholder for streaming text
+
+    # Iterate over the streamed chunks
+    for chunk in response:
+        chunk_content = chunk['choices'][0]['delta'].get('content', '')
+        if chunk_content:
+            response_content += chunk_content  # Append chunk to the response content
+            message_placeholder.write(response_content)  # Update the UI incrementally
+
+    return response_content
 
    # response = openai.Completion.create(
    #     engine="davinci",
@@ -76,12 +91,12 @@ def request_response(user_input):
 
     #content = response.choices[0].text
 
-    content = response["choices"][0]["message"]["content"]
+    #content = response["choices"][0]["message"]["content"]
 
     #if content_filter(content) != '2':
     #    return content
-    return content
-    return request_response(user_input)
+   # return content 
+   # return request_response(user_input)
 
 
 # Get response from GPT-3
@@ -101,7 +116,7 @@ def get_response(user_input):
 
     # Preliminary hello input
     if user_input in ['Hello', 'hello', 'Hello!', 'Hi', 'hi', 'HI', 'Hi!']:
-        return 'Hello! I am the AI assistant. Let us chat about human gene editing today.'
+        return 'Hello! I am the AI assistant. Let me know if you have any questions for the flood.'
 
     # Get response from gpt-3
     response = request_response(user_input)
