@@ -35,7 +35,6 @@ def set_background():
             background-color: white; 
             color: black; /* Black font for the warning */
             padding: 20px; 
-            font-weight: bold;
             font-size: 18px;
         }
         </style>
@@ -49,7 +48,7 @@ def apply_custom_css():
         <style>
         /* Style the user and assistant chat messages */
         .user-message, .assistant-message {
-            color: black;  /* Black text color */
+            color: black !important;  /* Black text color */
             background-color: #F0F0F0;  /* Light grey background */
             padding: 10px;
             border-radius: 10px;
