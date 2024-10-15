@@ -42,8 +42,29 @@ def set_background():
         """,
         unsafe_allow_html=True
     )
-
+    
+def apply_custom_css():
+    st.markdown(
+        """
+        <style>
+        /* Style the user and assistant chat messages */
+        .user-message, .assistant-message {
+            color: black;  /* Black text color */
+            background-color: #F0F0F0;  /* Light grey background */
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .st-chat-message {  /* Override any default white background */
+            background-color: #F0F0F0;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+    
 def main():
+
     set_background()
 
     # Show information with a styled title
@@ -86,16 +107,19 @@ def main():
 )
     
      # Set up chat session
+    apply_custom_css()
     session_setup()
     
-    # Initialize chat history
+     # Initialize chat history
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
-            st.markdown(message["content"])
+            # Apply specific class for user or assistant messages
+            class_name = "user-message" if message["role"] == "user" else "assistant-message"
+            st.markdown(f'<div class="{class_name}">{message["content"]}</div>', unsafe_allow_html=True)
 
     # Accept user input
     if user_input := st.chat_input("If you have any questions, please do not hesitate to chat with our interactive chatbot!"):
@@ -103,14 +127,14 @@ def main():
         st.session_state.messages.append({"role": "user", "content": user_input})
         # Display user message in chat message container
         with st.chat_message("user"):
-            st.markdown(user_input)
+            st.markdown(f'<div class="user-message">{user_input}</div>', unsafe_allow_html=True)
 
         # Display assistant response in chat message container
         with st.chat_message("assistant"):
             response_gen = get_response(user_input)
-            response = st.write(response_gen)
+            response = st.markdown(f'<div class="assistant-message">{response_gen}</div>', unsafe_allow_html=True)
             
-            # Add assistant response to chat history, check indense
+            # Add assistant response to chat history
             st.session_state.messages.append({"role": "assistant", "content": response_gen})
             
             # Modify prompt
