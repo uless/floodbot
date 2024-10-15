@@ -53,7 +53,7 @@ def main():
     st.markdown('<div class="flood-title">Staying Safe During a Flood</div>', unsafe_allow_html=True)
 
     # Display flood warning image
-    st.image('floodwarn.png', caption='Staying Safe During a Flood')
+    st.image('floodreadygov_floodwarn.png', caption='Staying Safe During a Flood')
 
     # Display flood warning information with aggressive styling
     st.markdown(
@@ -79,14 +79,12 @@ def main():
         padding: 10px; 
         border-radius: 5px; 
         border: 1px solid #ccc;">
-        Your goal is to find out the information with GPT-4 about <b>human gene editing</b>. Please stay on topic!
+        If you have any questions, please do not hesitate to chat with our brand new <b>interactive chatbot</b>!
     </div>
     """,
     unsafe_allow_html=True
 )
     
-    # Add in-page hyperlink to the instructions
-    st.markdown("[Click here to learn more about gene editing](#)", unsafe_allow_html=True)
 
      # Set up chat session
     session_setup()
