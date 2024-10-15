@@ -9,18 +9,41 @@ from utils.database import submit_to_database
 
 st.set_page_config(
     layout='wide',
-    page_title='Chatbot for science and technology',
+    page_title='Floods|Ready.gov',
     page_icon='🤖'
 )
 
+# Apply custom CSS for background color and title styling
+def set_background():
+    st.markdown(
+        """
+        <style>
+        .stApp {
+            background-color: #FFFFFF; /* White background */
+        }
+        .big-title {
+            color: #4C9900; /* Floodready.gov for the title */
+            font-size: 50px;
+            font-weight: bold;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
 def main():
+    set_background()
 
     # Set up session
     session_setup()
 
-    # Show information
-    st.title('AI chatbot for science')
+    # Show information with a styled title
+    st.markdown('<div class="big-title">Get Ready for Floods</div>', unsafe_allow_html=True)
     st.info('Your goal is to find out the information with GPT-4 about **human gene editing**. Please stay on topic!')
+    
+    # Add in-page hyperlink to the instructions
+    st.markdown("[Click here to learn more about gene editing](#)", unsafe_allow_html=True)
+
     
     # Initialize chat history
     if "messages" not in st.session_state:
