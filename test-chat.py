@@ -79,7 +79,7 @@ def main():
         padding: 10px; 
         border-radius: 5px; 
         border: 1px solid #ccc;">
-        If you have any questions, please do not hesitate to chat with our brand new <b>interactive chatbot</b>!
+        If you have any questions, please do not hesitate to chat with our <b>interactive chatbot</b>!
     </div>
     """,
     unsafe_allow_html=True
@@ -98,7 +98,7 @@ def main():
             st.markdown(message["content"])
 
     # Accept user input
-    if user_input := st.chat_input("What is up?"):
+    if user_input := st.chat_input("If you have any questions, please do not hesitate to chat with our interactive chatbot!"):
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": user_input})
         # Display user message in chat message container
