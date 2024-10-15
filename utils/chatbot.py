@@ -55,7 +55,7 @@ def request_response(user_input):
     prompt = st.session_state['prompt']
     prompt = prompt + 'Human: ' + user_input + '\n' + 'AI:'
 
-     response_content = ""
+    response_content = ""
     
     response = openai.ChatCompletion.create(
         model="gpt-4o",
