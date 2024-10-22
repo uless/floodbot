@@ -114,6 +114,8 @@ def main():
         ✅ Stay off bridges over fast-moving water. Fast-moving water can wash bridges away without warning.<br><br>
         ✅ Stay inside your car if it is trapped in rapidly moving water. Get on the roof if water is rising inside the car.<br><br>
         ✅ Get to the highest level if trapped in a building. Only get on the roof if necessary and once there, signal for help. Do not climb into a closed attic to avoid getting trapped by rising floodwater.<br><br>
+
+        If you finished reading this page, paste code **61dRy56o8a** to the survey page.
         </div>
         """,
         unsafe_allow_html=True
