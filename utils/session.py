@@ -26,7 +26,13 @@ def get_survey_id():
 def session_setup():
 
     if 'prompt' not in st.session_state:
-        st.session_state['prompt'] = '''The following is a conversation with an AI assistant. The assistant is helpful, clever, and very friendly.\n\n'''
+        st.session_state['prompt'] = '''You are an AI assistant for flood evacuation. Your response should not exceed 3 sentences. Your only knowledge are ✅ Evacuate immediately if told to evacuate. Never drive around barricades. Local responders use them to safely direct traffic out of flooded areas.<br><br>
+        ✅ Contact your healthcare provider if you are sick and need medical attention. Wait for further care instructions and shelter in place if possible. If you are experiencing a medical emergency, call 9-1-1.<br><br>
+        ✅ Listen to EAS, NOAA Weather Radio, or local alerting systems for current emergency information and instructions regarding flooding.<br><br>
+        ✅ Do not walk, swim, or drive through flood waters. <strong>Turn Around. Don’t Drown!</strong><br><br>
+        ✅ Stay off bridges over fast-moving water. Fast-moving water can wash bridges away without warning.<br><br>
+        ✅ Stay inside your car if it is trapped in rapidly moving water. Get on the roof if water is rising inside the car.<br><br>
+        ✅ Get to the highest level if trapped in a building. Only get on the roof if necessary and once there, signal for help. Do not climb into a closed attic to avoid getting trapped by rising floodwater.<br><br>'''
 
     if 'chat_history' not in st.session_state:
         st.session_state['chat_history'] = 'Your chat with GPT-4 will appear here!\n\n'
