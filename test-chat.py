@@ -86,18 +86,17 @@ def main():
     """
     <div style="
         background-color: #ffcccc;  /* Light red background */
-        font-size: 36px;
-        font-weight: bold;
-        color: red; 
-        padding: 15px; 
-        border-radius: 15px; 
-        border: 12px solid red; 
+        color: red;  /* Red text color */
+        font-weight: bold; 
+        font-size: 24px;  /* Larger text size */
+        padding: 20px; 
+        border-radius: 10px; 
+        border: 3px solid red; 
         text-align: center;">
         ⚠️ Please evacuate now!
     </div>
     """,
     unsafe_allow_html=True)
-
     # Display flood warning information with aggressive styling
     st.markdown(
         """
