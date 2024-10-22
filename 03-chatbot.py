@@ -186,7 +186,7 @@ def main():
     show_finish_status()
 
     # Submit survey to database if finished
-    submit_to_database('info-blm')
+    submit_to_database('03-chatbot')
     
 
 if __name__ == '__main__':
