@@ -119,74 +119,16 @@ def main():
         unsafe_allow_html=True
     )
     
-    st.markdown(
-    """
-    <div style="
-        background-color: white; 
-        color: black; 
-        padding: 10px; 
-        border-radius: 5px; 
-        border: 1px solid #ccc;">
-        If you have any questions, please do not hesitate to chat with our <b>interactive chatbot</b>!
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-    
+
      # Set up chat session
     apply_custom_css()
     session_setup()
-    
-     # Initialize chat history
-    if "messages" not in st.session_state:
-        st.session_state.messages = []
-
-    # Display chat messages from history on app rerun
-    for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            # Apply specific class for user or assistant messages
-            class_name = "user-message" if message["role"] == "user" else "assistant-message"
-            st.markdown(f'<div class="{class_name}">{message["content"]}</div>', unsafe_allow_html=True)
-
-    # Accept user input
-    if user_input := st.chat_input("If you have any questions, please do not hesitate to chat with our interactive chatbot!"):
-        # Add user message to chat history
-        st.session_state.messages.append({"role": "user", "content": user_input})
-        # Display user message in chat message container
-        with st.chat_message("user"):
-            st.markdown(f'<div class="user-message">{user_input}</div>', unsafe_allow_html=True)
-
-        # Display assistant response in chat message container
-        with st.chat_message("assistant"):
-            response_gen = get_response(user_input)
-            response = st.markdown(f'<div class="assistant-message">{response_gen}</div>', unsafe_allow_html=True)
-            
-            # Add assistant response to chat history
-            st.session_state.messages.append({"role": "assistant", "content": response_gen})
-            
-            # Modify prompt
-            modify_prompt(user_input, response_gen)
-
-            # Modify chat history
-            modify_chat_history(user_input, response_gen)
-
-            # Increment response count
-            st.session_state['response_count'] += 1
-
-            # Rerun page
-            st.experimental_rerun()
-
-    # Show response count
-    show_response_count()
 
     # Update session status
     finish_button()
 
     # Show finish status
     show_finish_status()
-
-    # Submit survey to database if finished
-    submit_to_database('03-chatbot')
     
 
 if __name__ == '__main__':
