@@ -149,20 +149,12 @@ def main():
             st.markdown(f'<div class="{class_name}">{message["content"]}</div>', unsafe_allow_html=True)
 
     # Accept user input
-    if user_input := st.chat_input("If you have any questions, please do not hesitate to chat with our interactive chatbot!"):
+    if user_input := st.chat_input("If you have any questions, please do not hesitate to leave a comment here"):
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": user_input})
         # Display user message in chat message container
         with st.chat_message("user"):
             st.markdown(f'<div class="user-message">{user_input}</div>', unsafe_allow_html=True)
-
-        # Display assistant response in chat message container
-        with st.chat_message("assistant"):
-            response_gen = get_response(user_input)
-            response = st.markdown(f'<div class="assistant-message">{response_gen}</div>', unsafe_allow_html=True)
-            
-            # Add assistant response to chat history
-            st.session_state.messages.append({"role": "assistant", "content": response_gen})
             
             # Modify prompt
             modify_prompt(user_input, response_gen)
@@ -171,7 +163,7 @@ def main():
             modify_chat_history(user_input, response_gen)
 
             # Increment response count
-            st.session_state['response_count'] += 1
+            st.session_state['response_count'] += 5
 
             # Rerun page
             st.experimental_rerun()
