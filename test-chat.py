@@ -89,12 +89,11 @@ def main():
         font-size: 36px;
         font-weight: bold;
         color: red; 
-        font-weight: bold; 
         padding: 15px; 
-        border-radius: 5px; 
-        border: 2px solid red; 
+        border-radius: 15px; 
+        border: 12px solid red; 
         text-align: center;">
-        ⚠️ Please evacuate now
+        ⚠️ Please evacuate now!
     </div>
     """,
     unsafe_allow_html=True)
