@@ -53,7 +53,6 @@ def show_finish_status():
 
     survey_id = st.session_state['survey_id']
     st.success(f'''
-      **Chat completed!** Thank you for chatting with the bot! \n
       Please return to the survey page and paste this verification code: **{survey_id}**. 
       You can now close this page if you have submitted this code in survey.
     ''')
