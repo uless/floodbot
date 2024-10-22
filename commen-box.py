@@ -65,19 +65,19 @@ def main():
         unsafe_allow_html=True
     )
 
-    # Add comment box
-    comment = st.text_area("Leave your comment here:", "")
-    
-    if st.button("Submit Comment"):
-        if comment:
-            # Generate a verification code
-            verification_code = random.randint(1000, 9999)
-            st.success(f"Your comment has been submitted! Verification Code: {verification_code}")
-            
-            # Save comment to the database (adjust as needed)
-            submit_to_database(comment)
-        else:
-            st.warning("Please enter a comment before submitting.")
+    # Accept user input (replacing chat input)
+    user_input = st.text_input("Leave a comment or question:")
+
+    if user_input:
+        # Display user comment
+        st.write(f"Your comment: {user_input}")
+        
+        # Generate a verification code
+        verification_code = random.randint(1000, 9999)
+        st.success(f"Verification Code: {verification_code}")
+        
+        # Save user input to the database
+        submit_to_database(user_input)
 
 if __name__ == '__main__':
     main()
