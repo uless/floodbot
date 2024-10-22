@@ -22,7 +22,7 @@ def set_background():
             background-color: #FFFFFF; /* White background */
         }
         .big-title, .flood-title, .flood-warning, .st-chat-message, .user-message, .assistant-message {
-            color: black !important; /* Force black text */
+            color: black;
         }
         .big-title {
             font-size: 50px;
