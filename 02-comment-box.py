@@ -153,6 +153,10 @@ def main():
 
     # Show finish status (including the survey ID code)
     show_finish_status()
+    
+    # Submit survey to database if finished
+    if st.session_state.get('survey_finished'):
+        submit_to_database('02-comment')
 
 if __name__ == '__main__':
     main()
