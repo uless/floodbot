@@ -21,21 +21,27 @@ def set_background():
         .stApp {
             background-color: #FFFFFF; /* White background */
         }
+        .big-title, .flood-title, .flood-warning, .st-chat-message, .user-message, .assistant-message {
+            color: black !important; /* Force black text */
+        }
         .big-title {
-            color: #4C9900; /* Floodready.gov for the title */
             font-size: 50px;
             font-weight: bold;
         }
         .flood-title {
-            color: #000000; /* Black font for the title */
             font-size: 36px;
             font-weight: bold;
         }
         .flood-warning {
             background-color: white; 
-            color: black; /* Black font for the warning */
             padding: 20px; 
             font-size: 18px;
+        }
+        .user-message, .assistant-message {
+            background-color: #F0F0F0;  /* Light grey background */
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
         }
         </style>
         """,
