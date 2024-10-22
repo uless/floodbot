@@ -88,6 +88,21 @@ def main():
     # Display flood warning image
     st.image('floodreadygov_floodwarn.png', caption='Staying Safe During a Flood')
 
+    st.markdown(
+    """
+    <div style="
+        background-color: #ffcccc;  /* Light red background */
+        color: red; 
+        font-weight: bold; 
+        padding: 15px; 
+        border-radius: 5px; 
+        border: 2px solid red; 
+        text-align: center;">
+        ⚠️ Please evacuate now
+    </div>
+    """,
+    unsafe_allow_html=True)
+
     # Display flood warning information with aggressive styling
     st.markdown(
         """
