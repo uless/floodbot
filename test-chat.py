@@ -44,12 +44,6 @@ def set_background():
             margin-bottom: 10px;
         }
         
-        /* Override default colors for Streamlit alert boxes */
-        .st-alert-success, .st-alert-info, .st-alert-warning, .st-alert-error {
-            color: black !important;  /* Set all alert text to black */
-            background-color: #F0F0F0 !important;  /* Light grey background */
-        }
-        
         </style>
         """,
         unsafe_allow_html=True
@@ -92,6 +86,8 @@ def main():
     """
     <div style="
         background-color: #ffcccc;  /* Light red background */
+        font-size: 36px;
+        font-weight: bold;
         color: red; 
         font-weight: bold; 
         padding: 15px; 
