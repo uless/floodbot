@@ -22,7 +22,7 @@ def set_background():
             background-color: #FFFFFF; /* White background */
         }
         .big-title, .flood-title, .flood-warning, .st-chat-message, .user-message, .assistant-message {
-            color: black !important; /* Force black text */
+            color: black;
         }
         .big-title {
             font-size: 50px;
@@ -42,12 +42,6 @@ def set_background():
             padding: 10px;
             border-radius: 10px;
             margin-bottom: 10px;
-        }
-        
-        /* Override default colors for Streamlit alert boxes */
-        .st-alert-success, .st-alert-info, .st-alert-warning, .st-alert-error {
-            color: black !important;  /* Set all alert text to black */
-            background-color: #F0F0F0 !important;  /* Light grey background */
         }
         
         </style>
@@ -90,19 +84,25 @@ def main():
 
     st.markdown(
     """
-    <div style="
+    <style>
+    .evacuate-now {
         background-color: #ffcccc;  /* Light red background */
-        color: red; 
+        color: red !important;  /* Force red text color */
         font-weight: bold; 
-        padding: 15px; 
-        border-radius: 5px; 
-        border: 2px solid red; 
-        text-align: center;">
+        font-size: 24px;  /* Larger text size */
+        padding: 20px; 
+        border-radius: 10px; 
+        border: 3px solid red; 
+        text-align: center;
+        margin-top: 20px;
+    }
+    </style>
+    <div class="evacuate-now">
         ⚠️ Please evacuate now
     </div>
     """,
     unsafe_allow_html=True)
-
+    
     # Display flood warning information with aggressive styling
     st.markdown(
         """
@@ -127,7 +127,7 @@ def main():
         padding: 10px; 
         border-radius: 5px; 
         border: 1px solid #ccc;">
-        If you have any questions, please do not hesitate to <b>put your comments here</b>!
+        If you have any questions, please do not hesitate to chat with our <b>interactive chatbot</b>!
     </div>
     """,
     unsafe_allow_html=True
@@ -186,7 +186,7 @@ def main():
     show_finish_status()
 
     # Submit survey to database if finished
-    submit_to_database('info-blm')
+    submit_to_database('03-chatbot')
     
 
 if __name__ == '__main__':
