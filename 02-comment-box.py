@@ -141,7 +141,7 @@ def main():
     session_setup()
 
     # Accept user input for comments
-    if user_input := st.text_input("If you have any questions or concerns, please do not hesitate to leave your comment here"):
+    if user_input := st.text_input(" "):
         # Store user input to the database
         submit_to_database(user_input)
         st.success("Thank you! Your comment has been submitted.")
