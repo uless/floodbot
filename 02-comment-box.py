@@ -98,7 +98,8 @@ def main():
     }
     </style>
     <div class="evacuate-now">
-        ⚠️ IMMEDIATE ACTION REQUIRED: A severe flood is rapidly approaching your area. <br>
+        ⚠️ IMMEDIATE ACTION REQUIRED: <br>
+        A severe flood is rapidly approaching your area. <br>
         For your safety, you MUST EVACUATE IMMEDIATELY
     </div>
     """,
