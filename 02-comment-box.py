@@ -124,7 +124,7 @@ def main():
     st.markdown(
     """
     <div style="
-        background-color: white; 
+        background-color: #e8e8e8;
         color: black; 
         padding: 10px; 
         border-radius: 5px; 
