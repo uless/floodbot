@@ -98,7 +98,8 @@ def main():
     }
     </style>
     <div class="evacuate-now">
-        ⚠️ Please evacuate now
+        ⚠️ IMMEDIATE ACTION REQUIRED: A severe flood is rapidly approaching your area. <br>
+        For your safety, you MUST EVACUATE IMMEDIATELY
     </div>
     """,
     unsafe_allow_html=True)
@@ -127,7 +128,7 @@ def main():
         padding: 10px; 
         border-radius: 5px; 
         border: 1px solid #ccc;">
-        If you have any questions, please do not hesitate to <b>leave your comment heret</b>!
+        If you have any questions or concerns, please do not hesitate to <b>leave your comment here</b>!
     </div>
     """,
     unsafe_allow_html=True
@@ -139,7 +140,7 @@ def main():
     session_setup()
 
     # Accept user input for comments
-    if user_input := st.text_input("If you have any comments, please enter them below:"):
+    if user_input := st.text_input("If you have any questions or concerns, please do not hesitate to leave your comment here"):
         # Store user input to the database
         submit_to_database(user_input)
         st.success("Thank you! Your comment has been submitted.")
