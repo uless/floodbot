@@ -159,25 +159,26 @@ def main():
             st.markdown(f'<div class="user-message">{user_input}</div>', unsafe_allow_html=True)
 
         # Display assistant response in chat message container
-        with st.chat_message("assistant",avatar='chatbot_avatar.png'):
+        for message in st.session_state.messages:
+            with st.chat_message("assistant",avatar='chatbot_avatar.png'):
           
-            response_gen = get_response(user_input)
-            response = st.markdown(f'<div class="assistant-message">{response_gen}</div>', unsafe_allow_html=True)
+                response_gen = get_response(user_input)
+                response = st.markdown(f'<div class="assistant-message">{response_gen}</div>', unsafe_allow_html=True)
             
-            # Add assistant response to chat history
-            st.session_state.messages.append({"role": "assistant", "content": response_gen})
+                # Add assistant response to chat history
+                st.session_state.messages.append({"role": "assistant", "content": response_gen})
             
-            # Modify prompt
-            modify_prompt(user_input, response_gen)
+                # Modify prompt
+                modify_prompt(user_input, response_gen)
 
-            # Modify chat history
-            modify_chat_history(user_input, response_gen)
+                # Modify chat history
+                modify_chat_history(user_input, response_gen)
 
-            # Increment response count
-            st.session_state['response_count'] += 1
+                # Increment response count
+                st.session_state['response_count'] += 1
 
-            # Rerun page
-            st.experimental_rerun()
+                # Rerun page
+                st.experimental_rerun()
 
     # Show response count
     show_response_count()
