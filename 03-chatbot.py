@@ -148,7 +148,7 @@ def main():
 
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
+        with st.chat_message(message["role"], avatar=st.session_state['avatars'] if message["role"] == "assistant" else None):
             # Apply specific class for user or assistant messages
             class_name = "user-message" if message["role"] == "user" else "assistant-message"
             st.markdown(f'<div class="{class_name}">{message["content"]}</div>', unsafe_allow_html=True)
