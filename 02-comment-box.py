@@ -139,9 +139,10 @@ def main():
     apply_custom_css()
     # Set up session
     session_setup()
+    user_input = st.text_input(" ")
 
     # Accept user input for comments
-    if user_input := st.text_input(" "):
+    if user_input:
         # Store user input to the database
         submit_to_database(user_input)
         st.success("Thank you! Your comment has been submitted.")
