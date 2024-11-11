@@ -144,9 +144,11 @@ def main():
     # Accept user input for comments
     if user_input:
         # Store user input to the database
-        submit_to_database(user_input)
+        #submit_to_database(user_input)
         st.success("Thank you! Your comment has been submitted.")
         st.session_state['survey_finished'] = True
+        modify_prompt(user_input, "")
+        st.experimental_rerun()
 
     # Show response count
     show_response_count()
