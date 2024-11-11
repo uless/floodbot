@@ -160,7 +160,8 @@ def main():
 
         # Display assistant response in chat message container
         for message in st.session_state.messages:
-            with st.chat_message("assistant",avatar='chatbot_avatar.png'):
+            avatars='chatbot_avatar.png'
+            with st.chat_message("assistant",avatar=avatars):
           
                 response_gen = get_response(user_input)
                 response = st.markdown(f'<div class="assistant-message">{response_gen}</div>', unsafe_allow_html=True)
