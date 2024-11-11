@@ -159,9 +159,8 @@ def main():
             st.markdown(f'<div class="user-message">{user_input}</div>', unsafe_allow_html=True)
 
         # Display assistant response in chat message container
-        with st.chat_message("assistant"):
-            # Display avatar before the message
-            st.image("chatbot_avatar.png", width=40)  # Adjust the width as needed
+        with st.chat_message("assistant",avatar=st.image('chatbot_avatar.png')):
+          
             response_gen = get_response(user_input)
             response = st.markdown(f'<div class="assistant-message">{response_gen}</div>', unsafe_allow_html=True)
             
