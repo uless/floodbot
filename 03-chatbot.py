@@ -160,7 +160,7 @@ def main():
 
         # Display assistant response in chat message container
         if 'avatars' not in st.session_state:
-        st.session_state['avatars'] = 'chatbot_avatar.png'  # Set initial avatar
+            st.session_state['avatars'] = 'chatbot_avatar.png'  # Set initial avatar
         
         for message in st.session_state.messages:
             #avatars='chatbot_avatar.png'
