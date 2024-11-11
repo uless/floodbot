@@ -143,6 +143,9 @@ def main():
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
+    if 'avatars' not in st.session_state:
+        st.session_state['avatars'] = 'chatbot_avatar.png'  # Set initial avatar
+
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
@@ -157,13 +160,10 @@ def main():
         # Display user message in chat message container
         with st.chat_message("user"):
             st.markdown(f'<div class="user-message">{user_input}</div>', unsafe_allow_html=True)
-
-        
         
         for message in st.session_state.messages:
             # Display assistant response in chat message container
-            if 'avatars' not in st.session_state:
-                st.session_state['avatars'] = 'chatbot_avatar.png'  # Set initial avatar
+
             #avatars='chatbot_avatar.png'
             with st.chat_message("assistant",avatar=st.session_state['avatars']):
           
