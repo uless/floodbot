@@ -159,9 +159,12 @@ def main():
             st.markdown(f'<div class="user-message">{user_input}</div>', unsafe_allow_html=True)
 
         # Display assistant response in chat message container
+        if 'avatars' not in st.session_state:
+        st.session_state['avatars'] = 'chatbot_avatar.png'  # Set initial avatar
+        
         for message in st.session_state.messages:
-            avatars='chatbot_avatar.png'
-            with st.chat_message("assistant",avatar=avatars):
+            #avatars='chatbot_avatar.png'
+            with st.chat_message("assistant",avatar=st.session_state['avatars']):
           
                 response_gen = get_response(user_input)
                 response = st.markdown(f'<div class="assistant-message">{response_gen}</div>', unsafe_allow_html=True)
