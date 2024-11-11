@@ -148,7 +148,7 @@ def main():
         st.success("Thank you! Your comment has been submitted.")
         st.session_state['survey_finished'] = True
         modify_prompt(user_input, "")
-        st.experimental_rerun()
+        #st.experimental_rerun()
 
     # Show response count
     show_response_count()
