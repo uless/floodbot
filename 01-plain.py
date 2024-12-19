@@ -88,27 +88,27 @@ def main():
         """,unsafe_allow_html=True)
 
         st.markdown(
-    """
-    <style>
-    .evacuate-now {
-        background-color: #ffcccc;  /* Light red background */
-        color: red !important;  /* Force red text color */
-        font-weight: bold; 
-        font-size: 24px;  /* Larger text size */
-        padding: 20px; 
-        border-radius: 10px; 
-        border: 3px solid red; 
-        text-align: center;
-        margin-top: 20px;
-    }
-    </style>
-    <div class="evacuate-now">
-        ⚠️ IMMEDIATE ACTION REQUIRED: <br>
-        A severe flood is rapidly approaching your area. <br>
-        For your safety, you MUST EVACUATE IMMEDIATELY.
-    </div>
-    """,
-    unsafe_allow_html=True)
+        """
+        <style>
+            .evacuate-now {
+            background-color: #ffcccc;  /* Light red background */
+            color: red !important;  /* Force red text color */
+            font-weight: bold; 
+            font-size: 24px;  /* Larger text size */
+            padding: 20px; 
+            border-radius: 10px; 
+            border: 3px solid red; 
+            text-align: center;
+            margin-top: 20px;
+        }
+        </style>
+            <div class="evacuate-now">
+            ⚠️ IMMEDIATE ACTION REQUIRED: <br>
+            A severe flood is rapidly approaching your area. <br>
+            For your safety, you MUST EVACUATE IMMEDIATELY.
+            </div>
+        """,
+        unsafe_allow_html=True)
 
      # Add new section
     st.markdown('<div class="flood-title">If you are under a flood warning:</div>', unsafe_allow_html=True)
