@@ -85,7 +85,7 @@ def main():
         - Develop slowly or quickly. Flash floods can come with no warning.<br>
         - Cause outages, disrupt transportation, damage buildings and create landslides.<br>
         </div>
-        """,
+        """,unsafe_allow_html=True)
 
      # Add new section
     st.markdown('<div class="flood-title">If you are under a flood warning:</div>', unsafe_allow_html=True)
