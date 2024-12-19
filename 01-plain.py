@@ -79,11 +79,11 @@ def main():
     st.markdown(
         """
         <div class="flood-warning">
-        <b>Flooding</b> is a temporary overflow of water onto land that is normally dry. Floods are the most common disaster in the United States. Failing to evacuate flooded areas or entering flood waters can lead to injury or death.<br>
-        Floods may:<br>
-        - Result from rain, snow, coastal storms, storm surges and overflows of dams and other water systems.<br>
-        - Develop slowly or quickly. Flash floods can come with no warning.<br>
-        - Cause outages, disrupt transportation, damage buildings and create landslides.<br>
+        <b>Flooding</b> is a temporary overflow of water onto land that is normally dry. Floods are the most common disaster in the United States. Failing to evacuate flooded areas or entering flood waters can lead to injury or death.<br><br>
+        Floods may:<br><br>
+        - Result from rain, snow, coastal storms, storm surges and overflows of dams and other water systems.<br><br>
+        - Develop slowly or quickly. Flash floods can come with no warning.<br><br>
+        - Cause outages, disrupt transportation, damage buildings and create landslides.<br><br>
         </div>
         """,unsafe_allow_html=True)
 
