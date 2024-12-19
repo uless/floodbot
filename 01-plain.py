@@ -90,7 +90,7 @@ def main():
      # Add new section
     st.markdown('<div class="flood-title">If you are under a flood warning:</div>', unsafe_allow_html=True)
 
-    st.image('holding-phone.png', caption='Flood Warning Notification')
+    st.image('holding-phone.png', caption=' ')
 
     st.markdown(
         """
@@ -110,7 +110,7 @@ def main():
     st.markdown('<div class="flood-title">Staying Safe During a Flood</div>', unsafe_allow_html=True)
 
     # Display flood warning image
-    st.image('floodreadygov_floodwarn.png', caption='Staying Safe During a Flood')
+    st.image('floodreadygov_floodwarn.png', caption=' ')
 
     st.markdown(
     """
