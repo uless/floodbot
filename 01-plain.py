@@ -79,11 +79,11 @@ def main():
     st.markdown(
         """
         <div class="flood-warning">
-        <b>Flooding</b> is a temporary overflow of water onto land that is normally dry. Floods are the most common disaster in the United States. Failing to evacuate flooded areas or entering flood waters can lead to injury or death.<br><br>
-        Floods may:<br><br>
-        - Result from rain, snow, coastal storms, storm surges and overflows of dams and other water systems.<br><br>
-        - Develop slowly or quickly. Flash floods can come with no warning.<br><br>
-        - Cause outages, disrupt transportation, damage buildings and create landslides.<br><br>
+        <b>Flooding</b> is a temporary overflow of water onto land that is normally dry. Floods are the most common disaster in the United States. Failing to evacuate flooded areas or entering flood waters can lead to injury or death.<br>
+        Floods may:<br>
+        - Result from rain, snow, coastal storms, storm surges and overflows of dams and other water systems.<br>
+        - Develop slowly or quickly. Flash floods can come with no warning.<br>
+        - Cause outages, disrupt transportation, damage buildings and create landslides.<br>
         </div>
         """,unsafe_allow_html=True)
 
@@ -94,13 +94,13 @@ def main():
 
     st.markdown(
         """
-        ✅ Find safe shelter right away.<br>
-        ✅ Do not walk, swim, or drive through flood waters. <strong>Turn Around, Don’t Drown!</strong><br>
-        ✅ Remember, just six inches of moving water can knock you down, and one foot of moving water can sweep your vehicle away.<br>
-        ✅ Stay off bridges over fast-moving water.<br>
-        ✅ Depending on the type of flooding:<br>
-        - Evacuate if told to do so.<br>
-        - Move to higher ground or a higher floor.<br>
+        ✅ Find safe shelter right away.<br><br>
+        ✅ Do not walk, swim, or drive through flood waters. <strong>Turn Around, Don’t Drown!</strong><br><br>
+        ✅ Remember, just six inches of moving water can knock you down, and one foot of moving water can sweep your vehicle away.<br><br>
+        ✅ Stay off bridges over fast-moving water.<br><br>
+        ✅ Depending on the type of flooding:<br><br>
+        - Evacuate if told to do so.<br><br>
+        - Move to higher ground or a higher floor.<br><br>
         - Stay where you are.
         """,
         unsafe_allow_html=True
