@@ -90,7 +90,7 @@ def main():
     st.markdown(
         """
         <style>
-            .evacuate-now {
+        .evacuate-now {
             background-color: #ffcccc;  /* Light red background */
             color: red !important;  /* Force red text color */
             font-weight: bold; 
@@ -102,11 +102,11 @@ def main():
             margin-top: 20px;
         }
         </style>
-            <div class="evacuate-now">
+        <div class="evacuate-now">
             ⚠️ IMMEDIATE ACTION REQUIRED: <br>
             A severe flood is rapidly approaching your area. <br>
             For your safety, you MUST EVACUATE IMMEDIATELY.
-            </div>
+        </div>
         """,
         unsafe_allow_html=True)
 
