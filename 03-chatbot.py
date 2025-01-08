@@ -73,37 +73,67 @@ def main():
 
     set_background()
 
+    st.markdown(
+        """
+        <style>
+        .evacuate-now {
+            background-color: #ffcccc;  /* Light red background */
+            color: red !important;  /* Force red text color */
+            font-weight: bold; 
+            font-size: 24px;  /* Larger text size */
+            padding: 20px; 
+            border-radius: 10px; 
+            border: 3px solid red; 
+            text-align: center;
+            margin-top: 20px;
+        }
+        </style>
+        <div class="evacuate-now">
+            ⚠️ IMMEDIATE ACTION REQUIRED: <br>
+            A severe flood is rapidly approaching your area. <br>
+            For your safety, you MUST EVACUATE IMMEDIATELY.
+        </div>
+        """,
+        unsafe_allow_html=True)
+
     # Show information with a styled title
     st.markdown('<div class="big-title">Get Ready for Floods</div>', unsafe_allow_html=True)
+
+    st.markdown(
+        """
+        <div class="flood-warning">
+        <b>Flooding</b> is a temporary overflow of water onto land that is normally dry. Floods are the most common disaster in the United States. Failing to evacuate flooded areas or entering flood waters can lead to injury or death.<br>
+        Floods may:<br>
+        - Result from rain, snow, coastal storms, storm surges and overflows of dams and other water systems.<br>
+        - Develop slowly or quickly. Flash floods can come with no warning.<br>
+        - Cause outages, disrupt transportation, damage buildings and create landslides.<br>
+        </div>
+        """,unsafe_allow_html=True)
+
+     # Add new section
+    st.markdown('<div class="flood-title">If you are under a flood warning:</div>', unsafe_allow_html=True)
+
+    st.image('holding-phone.png', caption=' ')
+
+    st.markdown(
+        """
+        ✅ Find safe shelter right away.<br><br>
+        ✅ Do not walk, swim, or drive through flood waters. <strong>Turn Around, Don’t Drown!</strong><br><br>
+        ✅ Remember, just six inches of moving water can knock you down, and one foot of moving water can sweep your vehicle away.<br><br>
+        ✅ Stay off bridges over fast-moving water.<br><br>
+        ✅ Depending on the type of flooding:<br><br>
+        - Evacuate if told to do so.<br><br>
+        - Move to higher ground or a higher floor.<br><br>
+        - Stay where you are.
+        """,
+        unsafe_allow_html=True
+    )
 
     # Display the title
     st.markdown('<div class="flood-title">Staying Safe During a Flood</div>', unsafe_allow_html=True)
 
     # Display flood warning image
-    st.image('floodreadygov_floodwarn.png', caption='Staying Safe During a Flood')
-
-    st.markdown(
-    """
-    <style>
-    .evacuate-now {
-        background-color: #ffcccc;  /* Light red background */
-        color: red !important;  /* Force red text color */
-        font-weight: bold; 
-        font-size: 24px;  /* Larger text size */
-        padding: 20px; 
-        border-radius: 10px; 
-        border: 3px solid red; 
-        text-align: center;
-        margin-top: 20px;
-    }
-    </style>
-    <div class="evacuate-now">
-        ⚠️ IMMEDIATE ACTION REQUIRED: <br>
-        A severe flood is rapidly approaching your area. <br>
-        For your safety, you MUST EVACUATE IMMEDIATELY.
-    </div>
-    """,
-    unsafe_allow_html=True)
+    st.image('floodreadygov_floodwarn.png', caption=' ')
     
     # Display flood warning information with aggressive styling
     st.markdown(
