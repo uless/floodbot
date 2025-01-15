@@ -8,28 +8,27 @@ maximum_responses = 5
 
 # Show response count
 def show_response_count():
-
     response_count = st.session_state['response_count']
 
     if response_count == 0:
         return
 
-    response_count_message = "You have finished {} round(s) of conversation.".format(
-        response_count)
+    remaining_rounds = maximum_responses - response_count
+    response_count_message = f"You have completed {response_count} round(s) of conversation."
 
     # Need more responses
     if response_count < warning_responses:
+        response_count_message += f" You can ask up to {remaining_rounds} more round(s) of conversation."
         st.info(response_count_message)
 
     # Enough but can ask more
-    if warning_responses <= response_count < maximum_responses:
-        extra_count = maximum_responses - response_count
-        response_count_message += ' Due to time limit, you can only ask {} more question to the chatbot.'.format(
-            extra_count)
+    elif warning_responses <= response_count < maximum_responses:
+        response_count_message += f" Due to time limits, you can ask {remaining_rounds} more round(s)."
         st.warning(response_count_message)
 
     # Done
-    if maximum_responses <= response_count:
+    elif response_count >= maximum_responses:
+        response_count_message += " You have reached the maximum allowed rounds of conversation."
         st.success(response_count_message)
 
 
