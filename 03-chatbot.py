@@ -174,7 +174,7 @@ def main():
         st.session_state.messages = []
 
     if 'avatars' not in st.session_state:
-        st.session_state['avatars'] = 'chatbot_avatar.webp'  # Set initial avatar
+        st.session_state['avatars'] = 'chatbot_avatar1.webp'  # Set initial avatar
 
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
