@@ -2,7 +2,7 @@ import streamlit as st
 import openai
 from streamlit_chat import message
 
-minimum_responses = 2
+minimum_responses = 1
 warning_responses = 3
 maximum_responses = 5
 
