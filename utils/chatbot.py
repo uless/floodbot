@@ -14,8 +14,35 @@ model = SentenceTransformer("all-MiniLM-L6-v2")
 KNOWLEDGE_FILE = "knowledge.csv"
 df = pd.read_csv(KNOWLEDGE_FILE)
 
-# Vectorize `topic`
-df["topic_embedding"] = df["topic"].apply(lambda x: model.encode(x, convert_to_tensor=True))
+import torch
+from sentence_transformers import SentenceTransformer, util
+
+
+df["topic_embedding"] = df["topic"].apply(lambda x: model.encode(str(x), convert_to_tensor=True))
+df["content_embedding"] = df["content"].apply(lambda x: model.encode(str(x), convert_to_tensor=True))
+
+def retrieve_knowledge(user_input):
+    user_embedding = model.encode(user_input, convert_to_tensor=True)
+
+    topic_similarities = [util.pytorch_cos_sim(user_embedding, topic_emb)[0].item() for topic_emb in df["topic_embedding"]]
+    
+    content_similarities = [util.pytorch_cos_sim(user_embedding, content_emb)[0].item() for content_emb in df["content_embedding"]]
+
+    best_topic_idx = torch.argmax(torch.tensor(topic_similarities)).item()
+    best_content_idx = torch.argmax(torch.tensor(content_similarities)).item()
+
+    best_topic_sim = topic_similarities[best_topic_idx]
+    best_content_sim = content_similarities[best_content_idx]
+
+    threshold = 0.1  
+
+    # 优先选择最相关的 content
+    if best_content_sim > threshold:
+        return df.iloc[best_content_idx]["content"]
+    elif best_topic_sim > threshold:
+        return df.iloc[best_topic_idx]["content"]
+    else:
+        return "I don't have specific information on that, but I can still help answer your question regarding the flood!"
 
 
 minimum_responses = 1
@@ -61,21 +88,6 @@ def content_filter(content_to_classify):
 
     return output_label
 
-# Find knowledge from the knowledge base
-def retrieve_knowledge(user_input):
-    user_embedding = model.encode(user_input, convert_to_tensor=True)
-    similarities = [util.pytorch_cos_sim(user_embedding, topic_emb)[0].item() for topic_emb in df["topic_embedding"]]
-
-    if not similarities:  
-        return "I don't have specific information on that, but I can still help answer your question regarding the flood!"
-
-    best_idx = torch.argmax(torch.tensor(similarities)).item()
-    best_match = df.iloc[best_idx]
-
-    if similarities[best_idx] > 0.3:
-        return best_match["content"]
-    else:
-        return "I don't have specific information on that, but I can still help answer your question regarding the flood!"
 
 def request_response(user_input):
     print('request_response called with user_input:', user_input)
