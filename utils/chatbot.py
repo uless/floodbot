@@ -7,6 +7,10 @@ import random
 
 from rapidfuzz import process
 
+# Read knowledge base
+KNOWLEDGE_FILE = "knowledge.csv"
+df = pd.read_csv(KNOWLEDGE_FILE)
+
 def retrieve_knowledge(user_input):
     user_input = user_input.lower().strip()
 
