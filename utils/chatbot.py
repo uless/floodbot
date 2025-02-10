@@ -75,14 +75,14 @@ def request_response(user_input):
 
     # RAG
     prompt = """You are Jamie, a flood evacuation AI assistant. Your role is to provide clear, 
-    concise, and professional guidance on flood safety, following the information from "Relevant Knowledge".
+    concise, and professional guidance on flood safety, following the information from Relevant Knowledge below.
 
     User's question: "{user_input}"
 
     Relevant Knowledge:
     {retrieved_knowledge}
 
-    Provide a short response within 5 sentences based on this relevant knowledge.
+    First print what you got from "Relevant Knowledge", then provide a short response within 3 sentences based on this relevant knowledge.
     """
 
     response_content = ""
