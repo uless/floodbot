@@ -17,32 +17,16 @@ df = pd.read_csv(KNOWLEDGE_FILE)
 import torch
 from sentence_transformers import SentenceTransformer, util
 
-
-df["topic_embedding"] = df["topic"].apply(lambda x: model.encode(str(x), convert_to_tensor=True))
-df["content_embedding"] = df["content"].apply(lambda x: model.encode(str(x), convert_to_tensor=True))
+df["topic"] = df["topic"].astype(str).str.lower()
 
 def retrieve_knowledge(user_input):
-    user_embedding = model.encode(user_input, convert_to_tensor=True)
-
-    topic_similarities = [util.pytorch_cos_sim(user_embedding, topic_emb)[0].item() for topic_emb in df["topic_embedding"]]
+    user_input = user_input.lower() 
     
-    content_similarities = [util.pytorch_cos_sim(user_embedding, content_emb)[0].item() for content_emb in df["content_embedding"]]
-
-    best_topic_idx = torch.argmax(torch.tensor(topic_similarities)).item()
-    best_content_idx = torch.argmax(torch.tensor(content_similarities)).item()
-
-    best_topic_sim = topic_similarities[best_topic_idx]
-    best_content_sim = content_similarities[best_content_idx]
-
-    threshold = 0.1  
-
-    # 优先选择最相关的 content
-    if best_content_sim > threshold:
-        return df.iloc[best_content_idx]["content"]
-    elif best_topic_sim > threshold:
-        return df.iloc[best_topic_idx]["content"]
-    else:
-        return "I don't have specific information on that, but I can still help answer your question regarding the flood!"
+    for index, row in df.iterrows():
+        if row["topic"] in user_input:
+            return row["content"]
+    
+    return "I don't have specific information on that, but I can still help answer your question regarding the flood!"
 
 
 minimum_responses = 1
@@ -97,7 +81,7 @@ def request_response(user_input):
 
     # RAG
     prompt = """You are Jamie, a flood evacuation AI assistant. Your role is to provide clear, 
-    concise, and professional guidance on flood safety, following government-approved information.
+    concise, and professional guidance on flood safety, following the information from "Relevant Knowledge".
 
     User's question: "{user_input}"
 
