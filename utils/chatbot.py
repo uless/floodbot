@@ -4,28 +4,18 @@ from streamlit_chat import message
 import pandas as pd
 import string
 import random
-import torch
-from sentence_transformers import SentenceTransformer, util
 
-# Load Sentence Transformer model for semantic matching
-model = SentenceTransformer("all-MiniLM-L6-v2")
-
-# Read knowledge base
-KNOWLEDGE_FILE = "knowledge.csv"
-df = pd.read_csv(KNOWLEDGE_FILE)
-
-import torch
-from sentence_transformers import SentenceTransformer, util
-
-df["topic"] = df["topic"].astype(str).str.lower()
+from rapidfuzz import process
 
 def retrieve_knowledge(user_input):
-    user_input = user_input.lower() 
-    
-    for index, row in df.iterrows():
-        if row["topic"] in user_input:
-            return row["content"]
-    
+    user_input = user_input.lower().strip()
+
+    # Use rapidfuzz to find the best matching topic
+    best_match, score, idx = process.extractOne(user_input, df["topic"], score_cutoff=20)  # 60% similarity threshold
+
+    if best_match:
+        return df.iloc[idx]["content"]  # Return corresponding content
+
     return "I don't have specific information on that, but I can still help answer your question regarding the flood!"
 
 
