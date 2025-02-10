@@ -1,7 +1,21 @@
 import streamlit as st
 import openai
 from streamlit_chat import message
-from utils.session import session_setup, retrieve_knowledge, generate_ai_response
+import pandas as pd
+import string
+import random
+import torch
+from sentence_transformers import SentenceTransformer, util
+
+# Load Sentence Transformer model for semantic matching
+model = SentenceTransformer("all-MiniLM-L6-v2")
+
+# Read knowledge base
+KNOWLEDGE_FILE = "knowledge.csv"
+df = pd.read_csv(KNOWLEDGE_FILE)
+
+# Vectorize `topic`
+df["topic_embedding"] = df["topic"].apply(lambda x: model.encode(x, convert_to_tensor=True))
 
 
 minimum_responses = 1
@@ -47,6 +61,21 @@ def content_filter(content_to_classify):
 
     return output_label
 
+# Find knowledge from the knowledge base
+def retrieve_knowledge(user_input):
+    user_embedding = model.encode(user_input, convert_to_tensor=True)
+    similarities = [util.pytorch_cos_sim(user_embedding, topic_emb)[0].item() for topic_emb in df["topic_embedding"]]
+
+    if not similarities:  
+        return "I don't have specific information on that, but I can still help answer your question regarding the flood!"
+
+    best_idx = torch.argmax(torch.tensor(similarities)).item()
+    best_match = df.iloc[best_idx]
+
+    if similarities[best_idx] > 0.3:
+        return best_match["content"]
+    else:
+        return "I don't have specific information on that, but I can still help answer your question regarding the flood!"
 
 def request_response(user_input):
     print('request_response called with user_input:', user_input)
