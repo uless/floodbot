@@ -1,6 +1,7 @@
 # Application for Gathering Human-Chatbot Conversations
 
-This Application serves as a tool for gathering human-chatbot conversations for research purposes. It offers user-friendly functionality and seamless integration with any chatbot. This repository corresponds to the paper titled ["How GPT-3 responds to different publics on climate change and Black Lives Matter: A critical appraisal of equity in conversational AI"](https://arxiv.org/abs/2209.13627).
+This Application serves as a tool for gathering human-chatbot conversations for research purposes. It offers user-friendly functionality and seamless integration with any chatbot. This repository corresponds to the paper titled "Human-Machine Justice in Disaster Response: How AI Chatbots Influence Risk Perception and Public Behavior" in collaboration with Dr. Shupei Yuan and Dr. Luye Bao. This chatbot project is adapted from the prior project with Dr. Kaiping Chen, Dr. Yixuan Li, and Jirayu Burapacheep:  ["Conversational AI and equity through assessing GPT-3’s communication with diverse social groups on contentious topics"]([https://www.nature.com/articles/s41598-024-51969-w]).
+
 
 ## Overview
 
@@ -44,10 +45,9 @@ db_endpoint = <YOUR MONGODB CONNECTION STRING>
 To run the application locally, execute one of the following commands:
 
 ```bash
-streamlit run info-blm.py
-streamlit run info-climate.py
-streamlit run opinion-blm.py
-streamlit run opinion-climate.py
+streamlit run 01-plain.py
+streamlit run 02-comment-box.py
+streamlit run 03-chatbot.py
 ```
 
 Each command corresponds to a different survey. The first two commands are for the information-seeking survey, and the last two commands are for the opinion-seeking survey. The first two commands are for the Black Lives Matter topic, and the last two commands are for the climate change topic. The only difference between each files is the description of the survey and the topic of the conversation.
@@ -66,17 +66,20 @@ streamlit run analyze.py
 
 The analysis application allows you to download a file that excludes conversations failing to meet the quality criteria. Additionally, it annotates each conversation round with the corresponding round index.
 
-## Citation
+## Knowledge Base
 
-If you use this application in your research, please consider citing our paper:
+Knowledge based for this flood-ready chatbot is collected from this main page [Floods|Ready.gov](https://www.ready.gov/floods), as well as the following sub-pages:
 
-```bibtex
-@misc{chen2023gpt3,
-    title={How GPT-3 responds to different publics on climate change and Black Lives Matter: A critical appraisal of equity in conversational AI}, 
-    author={Kaiping Chen and Anqi Shao and Jirayu Burapacheep and Yixuan Li},
-    year={2023},
-    eprint={2209.13627},
-    archivePrefix={arXiv},
-    primaryClass={cs.AI}
-}
-```
+Three webpages in the "During the flood" about relevant reseach on actions during the flood:
+
+[Flood │ Evacuate Safely When Ordered To](https://community.fema.gov/ProtectiveActions/s/article/Flood-Evacuate-Safely-When-Ordered-To)
+
+[Flood │ Don’t Drive During a Flood](https://community.fema.gov/ProtectiveActions/s/article/Flood-Dont-Drive-During-a-Flood)
+
+[Flood │ Move to Higher Ground](https://community.fema.gov/ProtectiveActions/s/article/Flood-Move-to-Higher-Ground)
+
+And two other information sheets:
+
+[Flood Information Sheet](https://www.ready.gov/sites/default/files/2025-01/fema_flood-hazard-info-sheet.pdf)
+
+[Your Homeowners Insurance Does Not Cover Flood](https://www.ready.gov/sites/default/files/2020-03/homeowners-does-not-cover-flooding.pdf)
