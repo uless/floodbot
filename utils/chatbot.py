@@ -1,6 +1,8 @@
 import streamlit as st
 import openai
 from streamlit_chat import message
+from utils.session import session_setup, retrieve_knowledge, generate_ai_response
+
 
 minimum_responses = 1
 warning_responses = 3
@@ -49,7 +51,7 @@ def content_filter(content_to_classify):
 def request_response(user_input):
     print('request_response called with user_input:', user_input)
 
-    # **改进：从知识库检索相关内容**
+    # *RAG
     retrieved_knowledge = retrieve_knowledge(user_input)
 
     # RAG
@@ -99,7 +101,7 @@ def get_response(user_input):
         return None
 
     if user_input.lower() in ['hello', 'hi', 'hello!', 'hi!']:
-        return 'Hello! I am the AI assistant. Let me know if you have any questions about the flood.'
+        return 'Hello! I am the AI assistant Jamie. Let me know if you have any questions about the flood.'
 
     response = request_response(user_input)
     return response
