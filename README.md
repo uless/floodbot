@@ -2,7 +2,7 @@
 
 This Application serves as a tool for gathering human-chatbot conversations for research purposes. It offers user-friendly functionality and seamless integration with any chatbot. This repository corresponds to the paper titled "Human-Machine Justice in Disaster Response: How AI Chatbots Influence Risk Perception and Public Behavior" in collaboration with Dr. Shupei Yuan and Dr. Luye Bao. 
 
-This chatbot project is adapted from the prior project with Dr. Kaiping Chen, Dr. Yixuan Li, and Jirayu Burapacheep:  ["Conversational AI and equity through assessing GPT-3’s communication with diverse social groups on contentious topics"]([https://www.nature.com/articles/s41598-024-51969-w]).
+This chatbot project is adapted from the prior project with Dr. Kaiping Chen, Dr. Yixuan Li, and Jirayu Burapacheep:  ["Conversational AI and equity through assessing GPT-3’s communication with diverse social groups on contentious topics"](https://www.nature.com/articles/s41598-024-51969-w).
 
 
 ## Overview
