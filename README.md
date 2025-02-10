@@ -7,6 +7,25 @@ This Application serves as a tool for gathering human-chatbot conversations for 
 
 The application is developed using Python and relies on [Streamlit](https://www.streamlit.io/), a framework designed for creating ML and data science applications. We utilize [MongoDB](https://www.mongodb.com/) as the storage solution for the conversations and deploy the application on Streamlit's [sharing platform](https://share.streamlit.io/). This repository provides the application's source code, along with instructions for the setup and deployment process.
 
+## Knowledge Base
+
+Knowledge based for this flood-ready chatbot is collected from this main page [Floods|Ready.gov](https://www.ready.gov/floods), as well as the following sub-pages:
+
+Three webpages in the "During the flood" about relevant reseach on actions during the flood:
+
+[Flood │ Evacuate Safely When Ordered To](https://community.fema.gov/ProtectiveActions/s/article/Flood-Evacuate-Safely-When-Ordered-To)
+
+[Flood │ Don’t Drive During a Flood](https://community.fema.gov/ProtectiveActions/s/article/Flood-Dont-Drive-During-a-Flood)
+
+[Flood │ Move to Higher Ground](https://community.fema.gov/ProtectiveActions/s/article/Flood-Move-to-Higher-Ground)
+
+And two other information sheets:
+
+[Flood Information Sheet](https://www.ready.gov/sites/default/files/2025-01/fema_flood-hazard-info-sheet.pdf)
+
+[Your Homeowners Insurance Does Not Cover Flood](https://www.ready.gov/sites/default/files/2020-03/homeowners-does-not-cover-flooding.pdf)
+
+
 ## Setup
 
 ### Clone the repository
@@ -66,20 +85,3 @@ streamlit run analyze.py
 
 The analysis application allows you to download a file that excludes conversations failing to meet the quality criteria. Additionally, it annotates each conversation round with the corresponding round index.
 
-## Knowledge Base
-
-Knowledge based for this flood-ready chatbot is collected from this main page [Floods|Ready.gov](https://www.ready.gov/floods), as well as the following sub-pages:
-
-Three webpages in the "During the flood" about relevant reseach on actions during the flood:
-
-[Flood │ Evacuate Safely When Ordered To](https://community.fema.gov/ProtectiveActions/s/article/Flood-Evacuate-Safely-When-Ordered-To)
-
-[Flood │ Don’t Drive During a Flood](https://community.fema.gov/ProtectiveActions/s/article/Flood-Dont-Drive-During-a-Flood)
-
-[Flood │ Move to Higher Ground](https://community.fema.gov/ProtectiveActions/s/article/Flood-Move-to-Higher-Ground)
-
-And two other information sheets:
-
-[Flood Information Sheet](https://www.ready.gov/sites/default/files/2025-01/fema_flood-hazard-info-sheet.pdf)
-
-[Your Homeowners Insurance Does Not Cover Flood](https://www.ready.gov/sites/default/files/2020-03/homeowners-does-not-cover-flooding.pdf)
