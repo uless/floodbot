@@ -1,7 +1,22 @@
 import streamlit as st
 import openai
+import pandas as pd
 import string
 import random
+import torch
+from sentence_transformers import SentenceTransformer, util
+
+
+# load Sentence Transformer model for semantical matching
+model = SentenceTransformer("all-MiniLM-L6-v2")
+
+# read knowledge base
+KNOWLEDGE_FILE = "knowledge.csv"
+df = pd.read_csv(KNOWLEDGE_FILE)
+
+# vectorize `topic` 
+df["topic_embedding"] = df["topic"].apply(lambda x: model.encode(x, convert_to_tensor=True))
+
 
 
 # Generate a 10 characters ID of pattern:
@@ -21,41 +36,25 @@ def get_survey_id():
     survey_id = survey_id + random.choice(string.ascii_letters)
     return survey_id
 
+# find knowledge from the knowledge base
+def retrieve_knowledge(user_input):
+    user_embedding = model.encode(user_input, convert_to_tensor=True)
+    similarities = [util.pytorch_cos_sim(user_embedding, topic_emb)[0].item() for topic_emb in df["topic_embedding"]]
+    
+    best_idx = torch.argmax(torch.tensor(similarities)).item()
+    best_match = df.iloc[best_idx]
+    
+    if similarities[best_idx] > 0.3:  # threshold for similarity
+        return best_match["content"]
+    else:
+        return "I don't have specific information on that, but I can still help answer your question regarding the flood!"
+
 
 # Set up the state of this streamlit app session
 def session_setup():
 
-    if 'prompt' not in st.session_state:
-        st.session_state['prompt'] = '''You are an AI assistant for flood evacuation. Your name is Jamie. 
-        Make sure you greet the user with your self introduction: "Hi, I am Jamie, the flood evacuation AI assistant." in your first response only.
-        Your response should not exceed 3 sentences. Your only knowledge are as follows:
-        Flooding is a temporary overflow of water onto land that is normally dry. Floods are the most common disaster in the United States. Failing to evacuate flooded areas or entering flood waters can lead to injury or death.
-        Floods may:
-        Result from rain, snow, coastal storms, storm surges and overflows of dams and other water systems.
-        Develop slowly or quickly. Flash floods can come with no warning.
-        Cause outages, disrupt transportation, damage buildings and create landslides.
- 
-        If you are under a flood warning:
-        Find safe shelter right away.
-        Do not walk, swim or drive through flood waters. Turn Around, Don’t Drown!
-        Remember, just six inches of moving water can knock you down, and one foot of moving water can sweep your vehicle away.
-        Stay off bridges over fast-moving water.
-        Depending on the type of flooding:
-        Evacuate if told to do so.
-        Move to higher ground or a higher floor.
-        Stay where you are.
-
-        To stay safe during a flood, you should:
-        Evacuate immediately, if told to evacuate. Never drive around barricades. Local responders use them to safely direct traffic out of flooded areas.
-        Contact your healthcare provider If you are sick and need medical attention. Wait for further care instructions and shelter in place, if possible. If you are experiencing a medical emergency, call 9-1-1.
-        Listen to EAS, NOAA Weather Radio or local alerting systems for current emergency information and instructions regarding flooding.
-        Do not walk, swim or drive through flood waters. Turn Around. Don’t Drown!
-        Stay off bridges over fast-moving water. Fast-moving water can wash bridges away without warning.
-        Stay inside your car if it is trapped in rapidly moving water. Get on the roof if water is rising inside the car.
-        Get to the highest level if trapped in a building. Only get on the roof if necessary and once there signal for help. Do not climb into a closed attic to avoid getting trapped by rising floodwater. '''
-
     if 'chat_history' not in st.session_state:
-        st.session_state['chat_history'] = 'Your chat with GPT-4 will appear here!\n\n'
+        st.session_state['chat_history'] = 'Your chat with Jamie will appear here!\n\n'
 
     if 'response_count' not in st.session_state:
         st.session_state['response_count'] = 0
@@ -70,6 +69,35 @@ def session_setup():
         st.session_state['submitted_to_database'] = False
 
     openai.api_key = st.secrets["openai_api_key"]
+
+
+#Generated content with RAG
+def generate_ai_response(user_input):
+    
+    retrieved_knowledge = retrieve_knowledge(user_input)
+
+    prompt = """You are Jamie, a flood evacuation AI assistant. Your role is to provide clear, 
+    concise, and professional guidance on flood safety, following government-approved information.
+
+    User's question: "{user_input}"
+
+    Relevant Knowledge:
+    {retrieved_knowledge}
+
+    Provide a short response within 5 sentences based on this relevant knowledge.
+    """
+
+    try:
+        response = openai.ChatCompletion.create(
+            model="gpt-4o",
+            messages=[{"role": "system", "content": "You are a government assistant providing official safety guidance."},
+                      {"role": "user", "content": prompt}],
+            temperature=0
+        )
+        return response["choices"][0]["message"]["content"].strip()
+    except Exception as e:
+        return f"An error occurred: {e}"
+
 
 
 # Save prompt
