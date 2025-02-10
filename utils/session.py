@@ -60,28 +60,19 @@ def session_setup():
 
     openai.api_key = st.secrets["openai_api_key"]
 
-# Generate AI response with RAG
-def generate_ai_response(user_input):
-    retrieved_knowledge = retrieve_knowledge(user_input)
+# Save prompt
+def modify_prompt(user_input, response):
 
-    prompt = """You are Jamie, a flood evacuation AI assistant. Your role is to provide clear, 
-    concise, and professional guidance on flood safety, following government-approved information.
+    prompt = st.session_state['prompt']
+    prompt = prompt + 'Human: ' + user_input + '\n'
+    prompt = prompt + 'AI: ' + response + '\n'
+    st.session_state['prompt'] = prompt
 
-    User's question: "{}"
 
-    Relevant Knowledge:
-    {}
+# Save chat history
+def modify_chat_history(user_input, response):
 
-    Provide a short response within 5 sentences based on this relevant knowledge.
-    """.format(user_input, retrieved_knowledge)
-
-    try:
-        response = openai.ChatCompletion.create(
-            model="gpt-4o",
-            messages=[{"role": "system", "content": "You are a government assistant providing official safety guidance."},
-                      {"role": "user", "content": prompt}],
-            temperature=0
-        )
-        return response["choices"][0]["message"]["content"].strip()
-    except Exception as e:
-        return f"An error occurred: {e}"
+    history = st.session_state['chat_history']
+    history = history + 'Participant: ' + user_input + '\n'
+    history = history + 'GPT-4: ' + response + '\n'
+    st.session_state['chat_history'] = history
