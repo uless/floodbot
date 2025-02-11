@@ -4,6 +4,7 @@ from streamlit_chat import message
 import pandas as pd
 import string
 import random
+import pgeocode
 
 from rapidfuzz import process
 
@@ -14,6 +15,20 @@ maximum_responses = 5
 # Read knowledge base
 KNOWLEDGE_FILE = "knowledge.csv"
 df = pd.read_csv(KNOWLEDGE_FILE)
+
+def get_location_from_zip(zip_code):
+    nomi = pgeocode.Nominatim("us")  # Using US ZIP codes
+    location = nomi.query_postal_code(zip_code)
+    if pd.notna(location.place_name):
+        return location.place_name
+    return None
+
+def get_zip_response(zip_code):
+    location = get_location_from_zip(zip_code)
+    if location:
+        return f"I see you're also in {location}! How can I assist you with the flood situation here?"
+    return "It seems that you did not provide a recognized ZIP code, but there is flooding in many areas including yours! How can I assist you?"
+
 
 def retrieve_knowledge(user_input):
     user_input = user_input.lower().strip()
@@ -26,7 +41,7 @@ def retrieve_knowledge(user_input):
     if relevant_rows:
         return "\n".join(set(relevant_rows))  # Return unique matches
 
-    return "I don't have specific information on that, but I can still help answer your question!"
+    return "The knowledge base don't have specific information on that. Tell the user you have no relevant information and you can help with other issues."
 
 
 # Perform content filter to the response from chatbot
@@ -114,8 +129,10 @@ def get_response(user_input):
     if not user_input:
         return None
 
-    if st.session_state['response_count'] >= maximum_responses:
-        return None
+    if user_input.isdigit() and len(user_input) == 5:  # Checking if input is ZIP code
+        return get_zip_response(user_input)
+    else:
+        return "It seems that you did not provide a ZIP code, but there is flooding in many areas including yours! How can I assist you?"
 
     if st.session_state['survey_finished']:
         return None
