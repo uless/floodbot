@@ -165,9 +165,6 @@ def main():
     """,
     unsafe_allow_html=True
 )
-
-    # Update session status
-    finish_button()
     
      # Set up chat session
     apply_custom_css()
@@ -221,8 +218,12 @@ def main():
                 # Increment response count
                 st.session_state['response_count'] += 1
 
+                # Update session status
+                finish_button()
+
                 # Rerun page
                 st.experimental_rerun()
+
 
     # Show response count
     show_response_count()
