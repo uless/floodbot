@@ -13,7 +13,7 @@ def show_response_count():
     if response_count == 0:
         return
 
-    #remaining_rounds = maximum_responses - response_count
+    remaining_rounds = maximum_responses - response_count
     #response_count_message = f"You have completed {response_count} round(s) of conversation. "
 
     # Need more responses
