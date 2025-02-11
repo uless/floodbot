@@ -218,12 +218,11 @@ def main():
                 # Increment response count
                 st.session_state['response_count'] += 1
 
-                # Update session status
-                finish_button()
-
                 # Rerun page
                 st.experimental_rerun()
-
+                
+    # Update session status
+    finish_button()
 
     # Show response count
     show_response_count()
