@@ -177,6 +177,11 @@ def main():
     if 'avatars' not in st.session_state:
         st.session_state['avatars'] = 'chatbot_avatar1.webp'  # Set initial avatar
 
+    if "messages" not in st.session_state or not st.session_state.messages:
+        chat_placeholder = "Type your 5-digit zipcode here to start the conversation."
+    else:
+        chat_placeholder = "If you have any questions, please do not hesitate to chat with Jamie, our <b>interactive chatbot</b>!"
+
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
         with st.chat_message(message["role"], avatar=st.session_state['avatars'] if message["role"] == "assistant" else None):
@@ -185,7 +190,7 @@ def main():
             st.markdown(f'<div class="{class_name}">{message["content"]}</div>', unsafe_allow_html=True)
 
     # Accept user input
-    if user_input := st.chat_input("Type your 5-digit zipcode here to start the conversation."):
+    if user_input := st.chat_input(chat_placeholder):
         # Add user message to chat history
         st.session_state.messages.append({"role": "user", "content": user_input})
         # Display user message in chat message container
