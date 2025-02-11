@@ -3,4 +3,5 @@ streamlit==1.33.0
 dnspython==2.3.0
 pymongo==4.3.3
 rapidfuzz
+pgeocode
 Streamlit-chat
