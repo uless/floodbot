@@ -7,25 +7,26 @@ import random
 
 from rapidfuzz import process
 
+minimum_responses = 1
+warning_responses = 3
+maximum_responses = 5
+
 # Read knowledge base
 KNOWLEDGE_FILE = "knowledge.csv"
 df = pd.read_csv(KNOWLEDGE_FILE)
 
 def retrieve_knowledge(user_input):
     user_input = user_input.lower().strip()
+    
+    relevant_rows = []
+    for word in user_input.split():  # Splitting input into words
+        matches = process.extract(word, df["topic"], limit=5)  # No score cutoff due to fuzzywuzzy limitations
+        relevant_rows.extend([df.iloc[idx]["content"] for _, score, idx in matches if score > 20])  # Apply threshold manually
 
-    # Use rapidfuzz to find the best matching topic
-    best_match, score, idx = process.extractOne(user_input, df["topic"], score_cutoff=20)  # 60% similarity threshold
+    if relevant_rows:
+        return "\n".join(set(relevant_rows))  # Return unique matches
 
-    if best_match:
-        return df.iloc[idx]["content"]  # Return corresponding content
-
-    return "I don't have specific information on that, but I can still help answer your question regarding the flood!"
-
-
-minimum_responses = 1
-warning_responses = 3
-maximum_responses = 5
+    return "I don't have specific information on that, but I can still help answer your question!"
 
 
 # Perform content filter to the response from chatbot
