@@ -180,7 +180,7 @@ def main():
     if "messages" not in st.session_state or not st.session_state.messages:
         chat_placeholder = "Type your 5-digit zipcode here to start the conversation."
     else:
-        chat_placeholder = "If you have any questions, please do not hesitate to chat with Jamie, our <b>interactive chatbot</b>!"
+        chat_placeholder = "If you have any questions, please do not hesitate to chat with Jamie!"
 
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
