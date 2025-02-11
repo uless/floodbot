@@ -1,5 +1,5 @@
 {
   "database": "survey-data",
-  "collection": "test",
+  "collection": "new-chat",
   "available_collections": ["test", "pilot-test", "pilot-jan-5", "pilot-feb-1"]
 }
