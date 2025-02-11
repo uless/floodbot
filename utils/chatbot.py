@@ -70,11 +70,7 @@ def content_filter(content_to_classify):
 
 def request_response(user_input):
     print('request_response called with user_input:', user_input)
-
-    # Debugging fix: if retrieved knowledge is empty, return a message directly
-    if not retrieved_knowledge or "I don't have specific information" in retrieved_knowledge:
-        return "DEBUG: No relevant knowledge retrieved. Check knowledge.csv for matching topics."
-
+    
     # *RAG
     retrieved_knowledge = retrieve_knowledge(user_input)
 
