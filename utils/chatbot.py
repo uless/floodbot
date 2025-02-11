@@ -21,7 +21,7 @@ def retrieve_knowledge(user_input):
     relevant_rows = []
     for word in user_input.split():  # Splitting input into words
         matches = process.extract(word, df["topic"], limit=5)  # No score cutoff due to fuzzywuzzy limitations
-        relevant_rows.extend([df.iloc[idx]["content"] for _, score, idx in matches if score > 10])  # Apply threshold manually
+        relevant_rows.extend([df.iloc[idx]["content"] for _, score, idx in matches if score > 30])  # Apply threshold manually
 
     if relevant_rows:
         return "\n".join(set(relevant_rows))  # Return unique matches
@@ -83,7 +83,7 @@ def request_response(user_input):
     Relevant Knowledge:
     {retrieved_knowledge}
 
-    First print what you got from "Relevant Knowledge", then provide a short response within 3 sentences based on this relevant knowledge.
+    Based on what you got from "Relevant Knowledge", provide a short response within 3 sentences.
     '''
 
     response_content = ""
@@ -91,7 +91,7 @@ def request_response(user_input):
     #complete content
     response = openai.ChatCompletion.create(
         model="gpt-4o",
-        messages=[{"role": "system", "content": "You are a government assistant providing official safety guidance."},
+        messages=[{"role": "system", "content": "You are a government assistant providing safety guidance."},
                   {"role": "user", "content": prompt}],
         temperature=0,
         max_tokens=500,
