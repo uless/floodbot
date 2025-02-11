@@ -124,27 +124,19 @@ def request_response(user_input):
 
     return response_content
 
-# get response from gpt4o
 def get_response(user_input):
     if not user_input:
         return None
 
-    response_content = ""
+    # ZIP Code Detection - Only respond with ZIP-specific message and exit early
+    if user_input.isdigit() and len(user_input) == 5:  
+        return get_zip_response(user_input)  # Return ZIP response only (no RAG applied)
 
-    if user_input.isdigit() and len(user_input) == 5:  # Checking if input is ZIP code
-        zip_response = get_zip_response(user_input)
-        response_content += zip_response + "\n\n"  # Append ZIP response first
-        # Do not return yet; let the chatbot continue answering other questions
-
-    if st.session_state.get('survey_finished', False):  # Check if session state is set properly
+    if st.session_state.get('survey_finished', False):  # Prevent responses if session is finished
         return None
 
     if user_input.lower() in ['hello', 'hi', 'hello!', 'hi!']:
-        response_content += 'Hello! I am the AI assistant Jamie. Let me know if you have any questions about the flood.\n\n'
-    
-    # Continue normal chatbot behavior after ZIP response
-    chatbot_response = request_response(user_input)
-    if chatbot_response:
-        response_content += chatbot_response  # Append chatbot response
+        return 'Hello! I am the AI assistant Jamie. Let me know if you have any questions about the flood.'
 
-    return response_content
+    # Apply RAG-based retrieval for non-ZIP inputs only
+    return request_response(user_input)
