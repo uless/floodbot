@@ -1,9 +1,9 @@
 import streamlit as st
 
 
-minimum_responses = 1
-warning_responses = 3
-maximum_responses = 5
+minimum_responses = 3
+warning_responses = 8
+maximum_responses = 10
 
 
 # Show response count
@@ -13,16 +13,16 @@ def show_response_count():
     if response_count == 0:
         return
 
-    remaining_rounds = maximum_responses - response_count
-    response_count_message = f"You have completed {response_count} round(s) of conversation. "
+    #remaining_rounds = maximum_responses - response_count
+    #response_count_message = f"You have completed {response_count} round(s) of conversation. "
 
     # Need more responses
-    if response_count < warning_responses:
-        response_count_message += f" You can ask up to {remaining_rounds} more round(s) of conversation."
-        st.info(response_count_message)
+    #if response_count < warning_responses:
+       #W response_count_message += f" You can ask up to {remaining_rounds} more round(s) of conversation."
+       #st.info(response_count_message)
 
     # Enough but can ask more
-    elif warning_responses <= response_count < maximum_responses:
+    if warning_responses <= response_count < maximum_responses:
         response_count_message += f" Due to time limits, you can ask {remaining_rounds} more round(s)."
         st.warning(response_count_message)
 
