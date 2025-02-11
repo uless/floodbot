@@ -1,8 +1,8 @@
 import streamlit as st
 
 
-minimum_responses = 3
-warning_responses = 8
+minimum_responses = 1
+warning_responses = 3
 maximum_responses = 10
 
 
