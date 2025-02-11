@@ -14,7 +14,7 @@ def show_response_count():
         return
 
     remaining_rounds = maximum_responses - response_count
-    #response_count_message = f"You have completed {response_count} round(s) of conversation. "
+    response_count_message = f"You have completed {response_count} round(s) of conversation. "
 
     # Need more responses
     #if response_count < warning_responses:
