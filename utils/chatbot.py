@@ -21,7 +21,7 @@ def retrieve_knowledge(user_input):
     relevant_rows = []
     for word in user_input.split():  # Splitting input into words
         matches = process.extract(word, df["topic"], limit=5)  # No score cutoff due to fuzzywuzzy limitations
-        relevant_rows.extend([df.iloc[idx]["content"] for _, score, idx in matches if score > 20])  # Apply threshold manually
+        relevant_rows.extend([df.iloc[idx]["content"] for _, score, idx in matches if score > 10])  # Apply threshold manually
 
     if relevant_rows:
         return "\n".join(set(relevant_rows))  # Return unique matches
@@ -71,11 +71,15 @@ def content_filter(content_to_classify):
 def request_response(user_input):
     print('request_response called with user_input:', user_input)
 
+    # Debugging fix: if retrieved knowledge is empty, return a message directly
+    if not retrieved_knowledge or "I don't have specific information" in retrieved_knowledge:
+        return "DEBUG: No relevant knowledge retrieved. Check knowledge.csv for matching topics."
+
     # *RAG
     retrieved_knowledge = retrieve_knowledge(user_input)
 
     # RAG
-    prompt = """You are Jamie, a flood evacuation AI assistant. Your role is to provide clear, 
+    prompt = f'''You are Jamie, a flood evacuation AI assistant. Your role is to provide clear, 
     concise, and professional guidance on flood safety, following the information from Relevant Knowledge below.
 
     User's question: "{user_input}"
@@ -84,7 +88,7 @@ def request_response(user_input):
     {retrieved_knowledge}
 
     First print what you got from "Relevant Knowledge", then provide a short response within 3 sentences based on this relevant knowledge.
-    """
+    '''
 
     response_content = ""
 
