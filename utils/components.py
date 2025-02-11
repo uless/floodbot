@@ -41,7 +41,7 @@ def finish_button():
         st.session_state['survey_finished'] = True
 
     if not st.session_state['survey_finished'] and response_count >= minimum_responses:
-        st.session_state['survey_finished'] |= st.button('Finish Chat')
+        st.session_state['survey_finished'] |= st.button('Click to finish the chat, or ignore it to continue the conversation.')
 
 
 # Show the survey completed message
