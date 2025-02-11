@@ -165,6 +165,9 @@ def main():
     """,
     unsafe_allow_html=True
 )
+
+    # Update session status
+    finish_button()
     
      # Set up chat session
     apply_custom_css()
@@ -223,9 +226,6 @@ def main():
 
     # Show response count
     show_response_count()
-
-    # Update session status
-    finish_button()
 
     # Show finish status
     show_finish_status()
