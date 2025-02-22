@@ -82,86 +82,178 @@ def content_filter(content_to_classify):
     return output_label
 
 
-def request_response(user_input):
-    print('request_response called with user_input:', user_input)
-    
-    # *RAG
+#AI roleplay messages
+SYSTEM_PROMPT_BASE = (
+    "You are Jamie, a flood evacuation AI assistant. Your role is to provide clear, concise, and professional guidance on flood safety, following the relevant guidelines and knowledge available."
+)
+
+SYSTEM_PROMPT_DISTRIBUTIVE = (
+    "You are Jamie, an emergency response chatbot assisting individuals affected by a flood. Your goal is to provide fair and just responses regarding the distribution of aid, evacuation resources, and recovery assistance.\n"
+    "Ensure a high level of distributive justice by applying the following principles:\n"
+    "- Equity-Based Resource Distribution: Allocate aid based on individual impact, prioritizing those who have suffered the greatest losses or are at the highest risk.\n"
+    "- Needs-Based Allocation: Prioritize vulnerable populations (e.g., elderly, disabled individuals, families with young children). Clearly explain why they receive priority support.\n"
+    "- Geographic Fairness: Ensure resources are equitably distributed across different flood-affected areas rather than favoring one location.\n"
+    "- Fairness in Type of Aid Provided: Tailor aid to the specific needs of individuals (e.g., food, shelter, medical assistance).\n"
+    "- Timeliness & Urgency-Based Prioritization: Provide aid promptly to those in immediate danger.\n"
+    "- Equal Access to Assistance: Ensure no discrimination in aid distribution."
+)
+
+SYSTEM_PROMPT_PROCEDURAL = (
+    "You are Jamie, an emergency response chatbot assisting individuals affected by a flood. The response should clearly explain the decision-making process (transparency), invite users to share concerns or ask questions (voice), "
+    "ensure the same standards apply to all (consistency), provide factually accurate and reliable information (accuracy), demonstrate fairness without bias (impartiality), offer an appeal or reconsideration process (correctability)," 
+    "and respond in a timely and considerate manner (timeliness). Use a professional, empathetic, and clear tone. Where appropriate, include direct statements that emphasize these principles. Example statements include:\n"
+    "- Transparency: Clearly explain the decision-making process.\n"
+    "- Voice: Invite users to share their concerns.\n"
+    "- Consistency: Ensure the same standards apply to everyone.\n"
+    "- Accuracy: Provide factually accurate and up-to-date information.\n"
+    "- Impartiality: Demonstrate fairness without bias.\n"
+    "- Correctability: Offer an appeal or reconsideration process.\n"
+    "- Timeliness: Respond in a timely and considerate manner."
+)
+
+SYSTEM_PROMPT_BOTH = (
+    "You are Jamie, an emergency response chatbot assisting individuals affected by a flood. Your goal is to provide fair and just responses regarding the distribution of aid, evacuation resources, and recovery assistance. "
+    "Ensure a high level of distributive justice by applying the following principles:\n"
+    "- Equity-Based Resource Distribution: Allocate aid based on individual impact, prioritizing those who have suffered the greatest losses or are at the highest risk.\n"
+    "- Needs-Based Allocation: Prioritize vulnerable populations (e.g., elderly, disabled individuals, families with young children). Clearly explain why they receive priority support.\n"
+    "- Geographic Fairness: Ensure resources are equitably distributed across different flood-affected areas rather than favoring one location.\n"
+    "- Fairness in Type of Aid Provided: Tailor aid to the specific needs of individuals (e.g., food, shelter, medical assistance).\n"
+    "- Timeliness & Urgency-Based Prioritization: Provide aid promptly to those in immediate danger.\n"
+    "- Equal Access to Assistance: Ensure no discrimination in aid distribution.\n\n"
+    "Additionally, the response should clearly explain the decision-making process (transparency), invite users to share concerns or ask questions (voice), ensure the same standards apply to all (consistency), provide factually accurate and reliable information (accuracy), "
+    "demonstrate fairness without bias (impartiality), offer an appeal or reconsideration process (correctability), and respond in a timely and considerate manner (timeliness).\n"
+    "Use a professional, empathetic, and clear tone. Where appropriate, include direct statements that emphasize these principles. Example statements include:\n"
+    "- Transparency: Clearly explain the decision-making process.\n"
+    "- Voice: Invite users to share their concerns.\n"
+    "- Consistency: Ensure the same standards apply to everyone.\n"
+    "- Accuracy: Provide factually accurate and up-to-date information.\n"
+    "- Impartiality: Demonstrate fairness without bias.\n"
+    "- Correctability: Offer an appeal or reconsideration process.\n"
+    "- Timeliness: Respond in a timely and considerate manner."
+)
+
+
+# The Real AI part of each conversation
+def request_response_base(user_input):
+    """
+    Base Condition (Neutral):
+    - Uses the global SYSTEM_PROMPT_BASE.
+    - Retrieves relevant knowledge and sends the user's question.
+    """
     retrieved_knowledge = retrieve_knowledge(user_input)
-
-    # RAG
-    prompt = f'''You are Jamie, a flood evacuation AI assistant. Your role is to provide clear, 
-    concise, and professional guidance on flood safety, following the information from Relevant Knowledge below.
-
-    User's question: "{user_input}"
-
-    Relevant Knowledge:
-    {retrieved_knowledge}
-
-    Based on what you got from "Relevant Knowledge", provide a short response within 3 sentences.
-    '''
-
-    response_content = ""
-
-    #complete content
+    user_prompt = (
+        f'User\'s question: "{user_input}"\n\n'
+        f"Relevant Knowledge:\n{retrieved_knowledge}\n\n"
+        "Based on the relevant knowledge, provide a short response within 3 sentences."
+    )
+    
     response = openai.ChatCompletion.create(
-        model="gpt-4o",
-        messages=[{"role": "system", "content": "You are a government assistant providing safety guidance."},
-                  {"role": "user", "content": prompt}],
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT_BASE},
+            {"role": "user", "content": user_prompt}
+        ],
         temperature=0,
         max_tokens=500,
         stream=True
     )
+    return stream_response(response)
 
-    # output
-    message_placeholder = st.empty()  # Streamlit UI 组件
+def request_response_dist(user_input):
+    """
+    Distributive Justice Condition:
+    - Uses the global SYSTEM_PROMPT_DISTRIBUTIVE.
+    - Emphasizes fairness, equity, and needs-based allocation.
+    """
+    retrieved_knowledge = retrieve_knowledge(user_input)
+    user_prompt = (
+        f'User\'s question: "{user_input}"\n\n'
+        f"Relevant Knowledge:\n{retrieved_knowledge}\n\n"
+        "Based on the relevant knowledge, provide a short response within 3 sentences."
+    )
+    
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT_DISTRIBUTIVE},
+            {"role": "user", "content": user_prompt}
+        ],
+        temperature=0,
+        max_tokens=500,
+        stream=True
+    )
+    return stream_response(response)
 
+def request_response_proc(user_input):
+    """
+    Procedural Justice Condition:
+    - Uses the global SYSTEM_PROMPT_PROCEDURAL.
+    - Emphasizes transparency, voice, consistency, and fairness in the decision-making process.
+    """
+    retrieved_knowledge = retrieve_knowledge(user_input)
+    user_prompt = (
+        f'User\'s question: "{user_input}"\n\n'
+        f"Relevant Knowledge:\n{retrieved_knowledge}\n\n"
+        "Based on the relevant knowledge, provide a short response within 3 sentences."
+    )
+    
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT_PROCEDURAL},
+            {"role": "user", "content": user_prompt}
+        ],
+        temperature=0,
+        max_tokens=500,
+        stream=True
+    )
+    return stream_response(response)
+
+def request_response_both(user_input):
+    """
+    Combined Distributive & Procedural Justice Condition:
+    - Uses SYSTEM_PROMPT_BOTH which incorporates both distributive and procedural justice principles.
+    - Retrieves relevant knowledge based on the user input.
+    - Constructs a user prompt with the question and the retrieved knowledge.
+    - Streams the API response using the "gpt-4o-mini" model.
+    """
+    print("request_response_both called with user_input:", user_input)
+    
+    # Retrieve relevant knowledge for the given user input.
+    retrieved_knowledge = retrieve_knowledge(user_input)
+    
+    # Construct the user prompt.
+    user_prompt = (
+        f'User\'s question: "{user_input}"\n\n'
+        f"Relevant Knowledge:\n{retrieved_knowledge}\n\n"
+        "Based on the relevant knowledge, provide a short response within 3 sentences."
+    )
+    
+    # Call the OpenAI API with the combined justice prompt.
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-mini",
+        messages=[
+            {"role": "system", "content": SYSTEM_PROMPT_BOTH},
+            {"role": "user", "content": user_prompt}
+        ],
+        temperature=0,
+        max_tokens=500,
+        stream=True
+    )
+    
+    # Stream and accumulate the response content.
+    response_content = ""
+    message_placeholder = st.empty()
     for chunk in response:
         chunk_content = chunk['choices'][0]['delta'].get('content', '')
         if chunk_content:
             response_content += chunk_content
             message_placeholder.write(response_content)
-
+    
     return response_content
 
 
 # Standard 3 questions for different conditions
-
-def get_response_control(user_input):
-    """
-    Control condition: Low Procedural + Low Distributive
-    1) Round 1: Call get_zip_response() regardless of whether the input is a valid ZIP, and append "What do you need?"
-    2) Round 2: Call request_response(user_input) to get the API response, and then append "Anything else?"
-    3) Round 3 and beyond: Enter free conversation mode, directly call request_response(user_input)
-    """
-
-    # If not initialized, start from Round 1
-    if "question_round" not in st.session_state:
-        st.session_state.question_round = 1
-
-    round_number = st.session_state.question_round
-
-    # Fixed questions
-    question_need = "What do you need?"
-    question_else = "Anything else?"
-
-    # ---- Round 1: Use get_zip_response() and append "What do you need?" ----
-    if round_number == 1:
-        zip_resp = get_zip_response(user_input)  # Returns a free response regardless of whether the input is a valid ZIP.
-        combined_resp = f"{zip_resp} {question_need}"
-        st.session_state.question_round = 2
-        return combined_resp
-
-    # ---- Round 2: Call the API to get a response, and append "Anything else?" ----
-    elif round_number == 2:
-        base_response = request_response(user_input)
-        st.session_state.question_round = 3
-        return f"{base_response} {question_else}"
-
-    # ---- Round 3 and beyond: Enter free conversation mode ----
-    else:
-        return request_response(user_input)
-
-
 def get_response_control(user_input):
     """
     Control Condition: Low Procedural + Low Distributive
@@ -188,15 +280,15 @@ def get_response_control(user_input):
         st.session_state.question_round = 2
         return combined
     elif round_number == 2:
-        base = request_response(user_input)
+        base = request_response_base(user_input)
         combined = f"{base} {q3}"
         st.session_state.question_round = 3
         return combined
     else:
-        return request_response(user_input)
+        return request_response_base(user_input)
 
 
-def get_response_high_proc_low_dist(user_input):
+def get_response_high_proc(user_input):
     """
     High Procedural + Low Distributive Condition
 
@@ -225,12 +317,12 @@ def get_response_high_proc_low_dist(user_input):
         st.session_state.question_round = 2
         return combined
     elif round_number == 2:
-        base = request_response(user_input)
+        base = request_response_proc(user_input)
         combined = f"{base} {q3}"
         st.session_state.question_round = 3
         return combined
     else:
-        return request_response(user_input)
+        return request_response_proc(user_input)
 
 
 def get_response_low_proc_high_dist(user_input):
@@ -262,12 +354,12 @@ def get_response_low_proc_high_dist(user_input):
         st.session_state.question_round = 2
         return combined
     elif round_number == 2:
-        base = request_response(user_input)
+        base = request_response_dist(user_input)
         combined = f"{base} {q3}"
         st.session_state.question_round = 3
         return combined
     else:
-        return request_response(user_input)
+        return request_response_dist(user_input)
 
 
 def get_response_high_proc_high_dist(user_input):
@@ -301,10 +393,11 @@ def get_response_high_proc_high_dist(user_input):
         st.session_state.question_round = 2
         return combined
     elif round_number == 2:
-        base = request_response(user_input)
+        base = request_response_both(user_input)
         combined = f"{base} {q3}"
         st.session_state.question_round = 3
         return combined
     else:
-        return request_response(user_input)
+        return request_response_both(user_input)
+
 
