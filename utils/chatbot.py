@@ -157,7 +157,7 @@ def request_response_base(user_input):
         max_tokens=500,
         stream=True
     )
-    return stream_response(response)
+    return response
 
 def request_response_dist(user_input):
     """
@@ -182,7 +182,7 @@ def request_response_dist(user_input):
         max_tokens=500,
         stream=True
     )
-    return stream_response(response)
+    return response
 
 def request_response_proc(user_input):
     """
@@ -207,7 +207,7 @@ def request_response_proc(user_input):
         max_tokens=500,
         stream=True
     )
-    return stream_response(response)
+    return response
 
 def request_response_both(user_input):
     """
