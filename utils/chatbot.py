@@ -7,9 +7,9 @@ import random
 import pgeocode
 from rapidfuzz import process
 
-minimum_responses = 1
-warning_responses = 3
-maximum_responses = 5
+minimum_responses = 3
+warning_responses = 8
+maximum_responses = 10
 
 # Read knowledge base
 KNOWLEDGE_FILE = "knowledge.csv"
@@ -126,7 +126,7 @@ def request_response(user_input):
 
 # Standard 3 questions for different conditions
 
-def get_response(user_input):
+def get_response_control(user_input):
     """
     Control condition: Low Procedural + Low Distributive
     1) Round 1: Call get_zip_response() regardless of whether the input is a valid ZIP, and append "What do you need?"
@@ -160,3 +160,151 @@ def get_response(user_input):
     # ---- Round 3 and beyond: Enter free conversation mode ----
     else:
         return request_response(user_input)
+
+
+def get_response_control(user_input):
+    """
+    Control Condition: Low Procedural + Low Distributive
+
+    Round 1:
+        - Generate a base reply using get_zip_response(user_input).
+        - Append the fixed text: "What do you need?"
+    Round 2:
+        - Get the API response using request_response(user_input).
+        - Append the fixed text: "Anything else?"
+    Round 3+:
+        - Continue with free conversation (simply return request_response(user_input)).
+    """
+    if "question_round" not in st.session_state:
+        st.session_state.question_round = 1
+
+    round_number = st.session_state.question_round
+    q2 = "What do you need?"
+    q3 = "Anything else?"
+
+    if round_number == 1:
+        base = get_zip_response(user_input)
+        combined = f"{base} {q2}"
+        st.session_state.question_round = 2
+        return combined
+    elif round_number == 2:
+        base = request_response(user_input)
+        combined = f"{base} {q3}"
+        st.session_state.question_round = 3
+        return combined
+    else:
+        return request_response(user_input)
+
+
+def get_response_high_proc_low_dist(user_input):
+    """
+    High Procedural + Low Distributive Condition
+
+    Round 1:
+        - Use get_zip_response(user_input) to generate the base reply.
+        - Append the fixed text: 
+          "I want to make sure you get the best possible support. What challenges or concerns are you facing right now?"
+    Round 2:
+        - Get the API response using request_response(user_input).
+        - Append the fixed text: 
+          "People in similar situations are receiving help, but I want to ensure we apply the right guidelines for you. Can you tell me more about your current situation?"
+    Round 3+:
+        - Continue with free conversation.
+    """
+    if "question_round" not in st.session_state:
+        st.session_state.question_round = 1
+
+    round_number = st.session_state.question_round
+    q2 = "I want to make sure you get the best possible support. What challenges or concerns are you facing right now?"
+    q3 = ("People in similar situations are receiving help, but I want to ensure we apply the right guidelines for you. "
+          "Can you tell me more about your current situation?")
+
+    if round_number == 1:
+        base = get_zip_response(user_input)
+        combined = f"{base} {q2}"
+        st.session_state.question_round = 2
+        return combined
+    elif round_number == 2:
+        base = request_response(user_input)
+        combined = f"{base} {q3}"
+        st.session_state.question_round = 3
+        return combined
+    else:
+        return request_response(user_input)
+
+
+def get_response_low_proc_high_dist(user_input):
+    """
+    Low Procedural + High Distributive Condition
+
+    Round 1:
+        - Use get_zip_response(user_input) to generate the base reply.
+        - Append the fixed text: 
+          "How has the flood affected you or your household, and what kind of support would be most helpful right now?"
+    Round 2:
+        - Get the API response using request_response(user_input).
+        - Append the fixed text: 
+          "Is there anything urgent that you or someone in your household is dealing with—such as medical concerns, mobility challenges, or young children needing special care?"
+    Round 3+:
+        - Continue with free conversation.
+    """
+    if "question_round" not in st.session_state:
+        st.session_state.question_round = 1
+
+    round_number = st.session_state.question_round
+    q2 = ("How has the flood affected you or your household, and what kind of support would be most helpful right now?")
+    q3 = ("Is there anything urgent that you or someone in your household is dealing with—such as medical concerns, "
+          "mobility challenges, or young children needing special care?")
+
+    if round_number == 1:
+        base = get_zip_response(user_input)
+        combined = f"{base} {q2}"
+        st.session_state.question_round = 2
+        return combined
+    elif round_number == 2:
+        base = request_response(user_input)
+        combined = f"{base} {q3}"
+        st.session_state.question_round = 3
+        return combined
+    else:
+        return request_response(user_input)
+
+
+def get_response_high_proc_high_dist(user_input):
+    """
+    High Procedural + High Distributive Condition
+
+    Round 1:
+        - Use get_zip_response(user_input) to generate the base reply.
+        - Append the fixed text: 
+          "I want to make sure you get the right type of assistance for your situation. Can you tell me more about how the flood has affected you and what support would help most?"
+    Round 2:
+        - Get the API response using request_response(user_input).
+        - Append the fixed text: 
+          "To keep things fair and consistent, we are prioritizing individuals with urgent needs while making sure everyone gets the support they need. 
+          Is there anything urgent—such as medical concerns, mobility challenges, or young children needing care—that we should address first?"
+    Round 3+:
+        - Continue with free conversation.
+    """
+    if "question_round" not in st.session_state:
+        st.session_state.question_round = 1
+
+    round_number = st.session_state.question_round
+    q2 = ("I want to make sure you get the right type of assistance for your situation. "
+          "Can you tell me more about how the flood has affected you and what support would help most?")
+    q3 = ("To keep things fair and consistent, we are prioritizing individuals with urgent needs while making sure everyone gets the support they need. "
+          "Is there anything urgent—such as medical concerns, mobility challenges, or young children needing care—that we should address first?")
+
+    if round_number == 1:
+        base = get_zip_response(user_input)
+        combined = f"{base} {q2}"
+        st.session_state.question_round = 2
+        return combined
+    elif round_number == 2:
+        base = request_response(user_input)
+        combined = f"{base} {q3}"
+        st.session_state.question_round = 3
+        return combined
+    else:
+        return request_response(user_input)
+
