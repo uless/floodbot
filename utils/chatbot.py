@@ -5,7 +5,6 @@ import pandas as pd
 import string
 import random
 import pgeocode
-
 from rapidfuzz import process
 
 minimum_responses = 1
@@ -124,19 +123,52 @@ def request_response(user_input):
 
     return response_content
 
+
+# Standard 3 questions for different conditions
+
 def get_response(user_input):
-    if not user_input:
-        return None
+    """
+    Control condition: Low Procedural + Low Distributive
+    1) 第一次输入必须是有效ZIP code，否则让用户重新输入。
+    2) 成功获取ZIP后，直接返回 get_zip_response() + "What do you need?"
+    3) 第二轮则问 "Anything else?"
+    4) 第三轮及以后进入自由对话(request_response)。
+    """
 
-    # ZIP Code Detection - Only respond with ZIP-specific message and exit early
-    if user_input.isdigit() and len(user_input) == 5:  
-        return get_zip_response(user_input)  # Return ZIP response only (no RAG applied)
+    # 如果没初始化，就从第1轮开始
+    if "question_round" not in st.session_state:
+        st.session_state.question_round = 1
 
-    if st.session_state.get('survey_finished', False):  # Prevent responses if session is finished
-        return None
+    round_number = st.session_state.question_round
 
-    if user_input.lower() in ['hello', 'hi', 'hello!', 'hi!']:
-        return 'Hello! I am the AI assistant Jamie. Let me know if you have any questions about the flood.'
+    # 设定三个主要问题，供后续合并使用
+    question_zip = "Please enter your ZIP code."   # 这里在逻辑中不会直接用到
+    question_need = "What do you need?"
+    question_else = "Anything else?"
 
-    # Apply RAG-based retrieval for non-ZIP inputs only
-    return request_response(user_input)
+    # ---- 第1轮：期待用户输入 ZIP code ----
+    if round_number == 1:
+        if user_input.isdigit() and len(user_input) == 5:
+            # 如果确实是5位数字ZIP
+            zip_resp = get_zip_response(user_input)  # 例如 “I see you’re in XXX...”
+            # 合并问句：把 zip_resp + “What do you need?” 放在一起
+            combined_resp = f"{zip_resp} {question_need}"
+            # 轮次+1，进入第二轮
+            st.session_state.question_round = 2
+            return combined_resp
+        else:
+            # 如果用户没输入正确ZIP，则提示重新输入
+            return "Please type a valid 5-digit ZIP code to start."
+
+    # ---- 第2轮：问 "Anything else?" ----
+    elif round_number == 2:
+        # 用户回答完上一轮后，这里返回 "Anything else?"
+        st.session_state.question_round = 3
+        return question_else
+
+    # ---- 第3轮及以后：进入自由提问回答模式 ----
+    else:
+        # 第3轮开始，调用 request_response()
+        # 机器人不再强制提问，允许用户自由提问并给出知识库答复
+        return request_response(user_input)
+
