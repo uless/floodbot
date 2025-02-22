@@ -3,7 +3,6 @@ import openai
 import pandas as pd
 import string
 import random
-from sentence_transformers import SentenceTransformer, util
 
 
 # Generate a 10-character ID
