@@ -25,8 +25,8 @@ def get_location_from_zip(zip_code):
 def get_zip_response(zip_code):
     location = get_location_from_zip(zip_code)
     if location:
-        return f"I see you're also in {location}! How can I assist you with the flood situation here?"
-    return "It seems that you did not provide a recognized ZIP code, but there is flooding in many areas including yours! How can I assist you?"
+        return f"I see you're also in {location}! "
+    return "It seems that you did not provide a recognized ZIP code, but there is flooding in many areas including yours! "
 
 
 def retrieve_knowledge(user_input):
@@ -129,46 +129,34 @@ def request_response(user_input):
 def get_response(user_input):
     """
     Control condition: Low Procedural + Low Distributive
-    1) 第一次输入必须是有效ZIP code，否则让用户重新输入。
-    2) 成功获取ZIP后，直接返回 get_zip_response() + "What do you need?"
-    3) 第二轮则问 "Anything else?"
-    4) 第三轮及以后进入自由对话(request_response)。
+    1) Round 1: Call get_zip_response() regardless of whether the input is a valid ZIP, and append "What do you need?"
+    2) Round 2: Call request_response(user_input) to get the API response, and then append "Anything else?"
+    3) Round 3 and beyond: Enter free conversation mode, directly call request_response(user_input)
     """
 
-    # 如果没初始化，就从第1轮开始
+    # If not initialized, start from Round 1
     if "question_round" not in st.session_state:
         st.session_state.question_round = 1
 
     round_number = st.session_state.question_round
 
-    # 设定三个主要问题，供后续合并使用
-    question_zip = "Please enter your ZIP code."   # 这里在逻辑中不会直接用到
+    # Fixed questions
     question_need = "What do you need?"
     question_else = "Anything else?"
 
-    # ---- 第1轮：期待用户输入 ZIP code ----
+    # ---- Round 1: Use get_zip_response() and append "What do you need?" ----
     if round_number == 1:
-        if user_input.isdigit() and len(user_input) == 5:
-            # 如果确实是5位数字ZIP
-            zip_resp = get_zip_response(user_input)  # 例如 “I see you’re in XXX...”
-            # 合并问句：把 zip_resp + “What do you need?” 放在一起
-            combined_resp = f"{zip_resp} {question_need}"
-            # 轮次+1，进入第二轮
-            st.session_state.question_round = 2
-            return combined_resp
-        else:
-            # 如果用户没输入正确ZIP，则提示重新输入
-            return "Please type a valid 5-digit ZIP code to start."
+        zip_resp = get_zip_response(user_input)  # Returns a free response regardless of whether the input is a valid ZIP.
+        combined_resp = f"{zip_resp} {question_need}"
+        st.session_state.question_round = 2
+        return combined_resp
 
-    # ---- 第2轮：问 "Anything else?" ----
+    # ---- Round 2: Call the API to get a response, and append "Anything else?" ----
     elif round_number == 2:
-        # 用户回答完上一轮后，这里返回 "Anything else?"
+        base_response = request_response(user_input)
         st.session_state.question_round = 3
-        return question_else
+        return f"{base_response} {question_else}"
 
-    # ---- 第3轮及以后：进入自由提问回答模式 ----
+    # ---- Round 3 and beyond: Enter free conversation mode ----
     else:
-        # 第3轮开始，调用 request_response()
-        # 机器人不再强制提问，允许用户自由提问并给出知识库答复
         return request_response(user_input)
-
