@@ -160,7 +160,7 @@ def main():
         border-radius: 5px; 
         border: 1px solid #ccc;">
         If you have any questions, please do not hesitate to chat with Jamie, our <b>interactive chatbot</b>!<br><br>
-        Please input your zipcode to start the conversation.
+        Please enter your ZIP code.
     </div>
     """,
     unsafe_allow_html=True
@@ -178,7 +178,7 @@ def main():
         st.session_state['avatars'] = 'chatbot_avatar1.webp'  # Set initial avatar
 
     if "messages" not in st.session_state or not st.session_state.messages:
-        chat_placeholder = "Type your 5-digit zipcode here to start the conversation."
+        chat_placeholder = "Please enter your ZIP code."
     else:
         chat_placeholder = "If you have any questions, please do not hesitate to chat with Jamie!"
 
@@ -203,7 +203,7 @@ def main():
             #avatars='chatbot_avatar.png'
             with st.chat_message("assistant",avatar=st.session_state['avatars']):
           
-                response_gen = get_response(user_input)
+                response_gen = get_response_base(user_input)
                 response = st.markdown(f'<div class="assistant-message">{response_gen}</div>', unsafe_allow_html=True)
             
                 # Add assistant response to chat history
@@ -231,7 +231,7 @@ def main():
     show_finish_status()
 
     # Submit survey to database if finished
-    submit_to_database('03-chatbot')
+    submit_to_database('03-chatbot-base')
     
 
 if __name__ == '__main__':
