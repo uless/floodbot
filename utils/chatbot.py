@@ -157,6 +157,15 @@ def request_response_base(user_input):
         max_tokens=500,
         stream=True
     )
+
+        # Stream and accumulate the response content.
+    response_content = ""
+    message_placeholder = st.empty()
+    for chunk in response:
+        chunk_content = chunk['choices'][0]['delta'].get('content', '')
+        if chunk_content:
+            response_content += chunk_content
+            message_placeholder.write(response_content)
     return response_content
 
 def request_response_dist(user_input):
@@ -182,6 +191,16 @@ def request_response_dist(user_input):
         max_tokens=500,
         stream=True
     )
+
+        # Stream and accumulate the response content.
+    response_content = ""
+    message_placeholder = st.empty()
+    for chunk in response:
+        chunk_content = chunk['choices'][0]['delta'].get('content', '')
+        if chunk_content:
+            response_content += chunk_content
+            message_placeholder.write(response_content)
+            
     return response_content
 
 def request_response_proc(user_input):
@@ -207,6 +226,16 @@ def request_response_proc(user_input):
         max_tokens=500,
         stream=True
     )
+
+        # Stream and accumulate the response content.
+    response_content = ""
+    message_placeholder = st.empty()
+    for chunk in response:
+        chunk_content = chunk['choices'][0]['delta'].get('content', '')
+        if chunk_content:
+            response_content += chunk_content
+            message_placeholder.write(response_content)
+            
     return response_content
 
 def request_response_both(user_input):
