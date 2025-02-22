@@ -288,7 +288,7 @@ def get_response_control(user_input):
         return request_response_base(user_input)
 
 
-def get_response_high_proc(user_input):
+def get_response_high_proc_low_dist(user_input):
     """
     High Procedural + Low Distributive Condition
 
