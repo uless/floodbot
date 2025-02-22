@@ -4,7 +4,7 @@ import time
 
 from utils.session import session_setup, modify_prompt, modify_chat_history
 from utils.components import show_response_count, finish_button, show_finish_status
-from utils.chatbot import get_response
+from utils.chatbot import get_response_base
 from utils.database import submit_to_database
 
 st.set_page_config(
