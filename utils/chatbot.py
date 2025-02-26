@@ -178,7 +178,7 @@ def request_response_dist(user_input):
     user_prompt = (
         f'User\'s question: "{user_input}"\n\n'
         f"Relevant Knowledge:\n{retrieved_knowledge}\n\n"
-        "Based on the relevant knowledge, provide a short response within 3 sentences.  You must follow a high distributive justice response as initially instructed."
+        "Based on the relevant knowledge, provide a short response within 3 sentences. You must follow a high distributive justice response as initially instructed."
     )
     
     response = openai.ChatCompletion.create(
@@ -255,7 +255,7 @@ def request_response_both(user_input):
     user_prompt = (
         f'User\'s question: "{user_input}"\n\n'
         f"Relevant Knowledge:\n{retrieved_knowledge}\n\n"
-        "Based on the relevant knowledge, provide a short response within 3 sentences."
+        "Based on the relevant knowledge, provide a short response within 3 sentences.  You must follow a high distributive justice and high procedural justice response as initially instructed."
     )
     
     # Call the OpenAI API with the combined justice prompt.
