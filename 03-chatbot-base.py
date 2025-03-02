@@ -96,6 +96,17 @@ def main():
         """,
         unsafe_allow_html=True)
 
+    st.markdown(
+    """
+    <script>
+    window.addEventListener('load', function() {
+        window.scrollTo(0, 0);
+    });
+    </script>
+    """,
+    unsafe_allow_html=True)
+
+
     # Show information with a styled title
     st.markdown('<div class="big-title">Get Ready for Floods</div>', unsafe_allow_html=True)
 
