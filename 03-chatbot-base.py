@@ -219,7 +219,7 @@ def main():
                 st.session_state['response_count'] += 1
 
                 # Rerun page
-                st.experimental_rerun()
+                #st.experimental_rerun()
                 
     # Update session status
     finish_button()
