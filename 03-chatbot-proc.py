@@ -161,7 +161,7 @@ def main():
         border-radius: 5px; 
         border: 1px solid #ccc;">
         If you have any questions, please do not hesitate to chat with Jamie, our <b>interactive chatbot</b>!<br><br>
-        Press 'Start chat' to begin. <br>
+        Press 'Start chat' to begin.<br>
         To make sure I provide you with the right information, let me explain how aid is being distributed. Once you start, can you tell me your <b>ZIP code</b> so I can check what resources are available in your area?
 
     </div>
