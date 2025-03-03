@@ -162,8 +162,7 @@ def main():
         border: 1px solid #ccc;">
         If you have any questions, please do not hesitate to chat with Jamie, our <b>interactive chatbot</b>!<br><br>
         Press 'Start chat' to begin. <br>
-        To make sure we follow a fair and transparent process, we use location data to match people with the nearest available aid. <br>
-        Once you start, Can you tell me your ZIP code so I can check what’s accessible for you?
+        To make sure we follow a fair and transparent process, we use location data to match people with the nearest available aid. Once you start, Can you tell me your <b>ZIP code</b> so I can check what’s accessible for you?
 
     </div>
     """,
