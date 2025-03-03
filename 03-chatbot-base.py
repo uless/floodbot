@@ -118,7 +118,7 @@ def main():
 
     st.markdown(
         """
-        ✅ Find safe shelter right away.<br><br>
+        ✅ Find safe shelter right away.<br>
         ✅ Do not walk, swim, or drive through flood waters. <strong>Turn Around, Don’t Drown!</strong><br>
         ✅ Remember, just six inches of moving water can knock you down, and one foot of moving water can sweep your vehicle away.<br>
         ✅ Stay off bridges over fast-moving water.<br>
