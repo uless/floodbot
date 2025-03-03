@@ -191,7 +191,7 @@ def main():
             st.session_state['avatars'] = 'chatbot_avatar1.webp'  # Set initial avatar
 
         if "messages" not in st.session_state or not st.session_state.messages:
-            chat_placeholder = "Please enter your ZIP code."
+            chat_placeholder = "Can you tell me your ZIP code so I can check what’s accessible for you?"
         else:
             chat_placeholder = "If you have any questions, please do not hesitate to chat with Jamie!"
 
