@@ -160,8 +160,8 @@ def main():
         padding: 10px; 
         border-radius: 5px; 
         border: 1px solid #ccc;">
-        If you have any questions, please do not hesitate to chat with Jamie, our <b>interactive chatbot</b>!<br><br>
-        Please enter your ZIP code.
+        If you have any questions, please do not hesitate to chat with Jamie, our <b>interactive chatbot</b>!<br>
+        Press 'Start chat' to begin.
     </div>
     """,
     unsafe_allow_html=True
