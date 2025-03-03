@@ -5,6 +5,7 @@ import pandas as pd
 import string
 import random
 import pgeocode
+import re
 from rapidfuzz import process
 
 minimum_responses = 3
