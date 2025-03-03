@@ -309,10 +309,17 @@ def get_response_control(user_input):
         st.session_state.question_round = 2
         return combined
     elif round_number == 2:
-        base = request_response_base(user_input)
-        combined = f"{base} {q3}"
-        st.session_state.question_round = 3
-        return combined
+        # Check if the input is exactly a 5-digit zipcode
+        if re.fullmatch(r'\d{5}', user_input.strip()):
+            base = get_zip_response(user_input)
+            # Keep the same prompt to allow a proper input
+            combined = f"{base} {q2}"
+            return combined
+        else:
+            base = request_response_base(user_input)
+            combined = f"{base} {q3}"
+            st.session_state.question_round = 3
+            return combined
     else:
         return request_response_base(user_input)
 
@@ -346,10 +353,17 @@ def get_response_high_proc_low_dist(user_input):
         st.session_state.question_round = 2
         return combined
     elif round_number == 2:
-        base = request_response_proc(user_input)
-        combined = f"{base} {q3}"
-        st.session_state.question_round = 3
-        return combined
+        # Check if the input is exactly a 5-digit zipcode
+        if re.fullmatch(r'\d{5}', user_input.strip()):
+            base = get_zip_response(user_input)
+            # Keep the same prompt to allow a proper input
+            combined = f"{base} {q2}"
+            return combined
+        else:
+            base = request_response_proc(user_input)
+            combined = f"{base} {q3}"
+            st.session_state.question_round = 3
+            return combined   
     else:
         return request_response_proc(user_input)
 
@@ -383,10 +397,17 @@ def get_response_low_proc_high_dist(user_input):
         st.session_state.question_round = 2
         return combined
     elif round_number == 2:
-        base = request_response_dist(user_input)
-        combined = f"{base} {q3}"
-        st.session_state.question_round = 3
-        return combined
+        # Check if the input is exactly a 5-digit zipcode
+        if re.fullmatch(r'\d{5}', user_input.strip()):
+            base = get_zip_response(user_input)
+            # Keep the same prompt to allow a proper input
+            combined = f"{base} {q2}"
+            return combined
+        else:
+            base = request_response_dist(user_input)
+            combined = f"{base} {q3}"
+            st.session_state.question_round = 3
+            return combined
     else:
         return request_response_dist(user_input)
 
@@ -422,10 +443,17 @@ def get_response_high_proc_high_dist(user_input):
         st.session_state.question_round = 2
         return combined
     elif round_number == 2:
-        base = request_response_both(user_input)
-        combined = f"{base} {q3}"
-        st.session_state.question_round = 3
-        return combined
+        # Check if the input is exactly a 5-digit zipcode
+        if re.fullmatch(r'\d{5}', user_input.strip()):
+            base = get_zip_response(user_input)
+            # Keep the same prompt to allow a proper input
+            combined = f"{base} {q2}"
+            return combined
+        else:
+            base = request_response_both(user_input)
+            combined = f"{base} {q3}"
+            st.session_state.question_round = 3
+            return combined
     else:
         return request_response_both(user_input)
 
