@@ -161,7 +161,8 @@ def main():
         border-radius: 5px; 
         border: 1px solid #ccc;">
         If you have any questions, please do not hesitate to chat with Jamie, our <b>interactive chatbot</b>!<br><br>
-        Press 'Start chat' to begin. To provide the most relevant aid information, once you start, please enter your <b>ZIP code</b> so we can direct you to the closest available resources.
+        Press 'Start chat' to begin. <br>
+        To provide the most relevant aid information, once you start, please enter your <b>ZIP code</b> so we can direct you to the closest available resources.
 
     </div>
     """,
