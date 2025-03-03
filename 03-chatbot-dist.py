@@ -216,7 +216,7 @@ def main():
                 #avatars='chatbot_avatar.png'
                 with st.chat_message("assistant",avatar=st.session_state['avatars']):
           
-                    response_gen = get_response_control(user_input)
+                    response_gen = get_response_low_proc_high_dist(user_input)
                     response = st.markdown(f'<div class="assistant-message">{response_gen}</div>', unsafe_allow_html=True)
             
                     # Add assistant response to chat history
