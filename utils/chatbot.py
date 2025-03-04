@@ -12,10 +12,6 @@ minimum_responses = 3
 warning_responses = 8
 maximum_responses = 10
 
-# Read knowledge base
-KNOWLEDGE_FILE = "knowledge.csv"
-df = pd.read_csv(KNOWLEDGE_FILE)
-
 def get_location_from_zip(zip_code):
     nomi = pgeocode.Nominatim("us")  # Using US ZIP codes
     location = nomi.query_postal_code(zip_code)
@@ -28,21 +24,6 @@ def get_zip_response(zip_code):
     if location:
         return f"I see you're also in {location}! "
     return "It seems that you did not provide a recognized ZIP code, but there is flooding in many areas including yours! "
-
-
-def retrieve_knowledge(user_input):
-    user_input = user_input.lower().strip()
-    
-    relevant_rows = []
-    for word in user_input.split():  # Splitting input into words
-        matches = process.extract(word, df["topic"], limit=5)  # No score cutoff due to fuzzywuzzy limitations
-        relevant_rows.extend([df.iloc[idx]["content"] for _, score, idx in matches if score > 30])  # Apply threshold manually
-
-    if relevant_rows:
-        return "\n".join(set(relevant_rows))  # Return unique matches
-
-    return "The knowledge base don't have specific information on that. Tell the user you have no relevant information and you can help with other issues."
-
 
 # Perform content filter to the response from chatbot
 def content_filter(content_to_classify):
@@ -139,13 +120,10 @@ def request_response_base(user_input):
     """
     Base Condition (Neutral):
     - Uses the global SYSTEM_PROMPT_BASE.
-    - Retrieves relevant knowledge and sends the user's question.
     """
-    retrieved_knowledge = retrieve_knowledge(user_input)
     user_prompt = (
         f'User\'s question: "{user_input}"\n\n'
-        f"Relevant Knowledge:\n{retrieved_knowledge}\n\n"
-        "Based on the relevant knowledge, provide a short response."
+        "Provide a short response."
     )
     
     response = openai.ChatCompletion.create(
@@ -175,11 +153,9 @@ def request_response_dist(user_input):
     - Uses the global SYSTEM_PROMPT_DISTRIBUTIVE.
     - Emphasizes fairness, equity, and needs-based allocation.
     """
-    retrieved_knowledge = retrieve_knowledge(user_input)
     user_prompt = (
         f'User\'s question: "{user_input}"\n\n'
-        f"Relevant Knowledge:\n{retrieved_knowledge}\n\n"
-        "Based on the relevant knowledge, provide a short response. You must follow a high distributive justice response as initially instructed."
+        "Provide a short response. You must follow a high distributive justice response as initially instructed."
     )
     
     response = openai.ChatCompletion.create(
@@ -210,11 +186,9 @@ def request_response_proc(user_input):
     - Uses the global SYSTEM_PROMPT_PROCEDURAL.
     - Emphasizes transparency, voice, consistency, and fairness in the decision-making process.
     """
-    retrieved_knowledge = retrieve_knowledge(user_input)
     user_prompt = (
         f'User\'s question: "{user_input}"\n\n'
-        f"Relevant Knowledge:\n{retrieved_knowledge}\n\n"
-        "Based on the relevant knowledge, provide a short response. You must follow a high procedural justice response as initially instructed."
+        "Provide a short response. You must follow a high procedural justice response as initially instructed."
     )
     
     response = openai.ChatCompletion.create(
@@ -249,14 +223,10 @@ def request_response_both(user_input):
     """
     print("request_response_both called with user_input:", user_input)
     
-    # Retrieve relevant knowledge for the given user input.
-    retrieved_knowledge = retrieve_knowledge(user_input)
-    
     # Construct the user prompt.
     user_prompt = (
         f'User\'s question: "{user_input}"\n\n'
-        f"Relevant Knowledge:\n{retrieved_knowledge}\n\n"
-        "Based on the relevant knowledge, provide a short response.  You must follow a high distributive justice and high procedural justice response as initially instructed."
+        "Provide a short response. You must follow a high distributive justice and high procedural justice response as initially instructed."
     )
     
     # Call the OpenAI API with the combined justice prompt.
