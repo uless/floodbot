@@ -284,11 +284,11 @@ def get_response_control(user_input):
         if re.fullmatch(r'\d{5}', user_input.strip()):
             base = get_zip_response(user_input)
             # Keep the same prompt to allow a proper input
-            combined = f"{base} {q2}"
+            combined = f"{base}\n\n{q2}"
             return combined
         else:
             base = request_response_base(user_input)
-            combined = f"{base} {q3}"
+            combined = f"{base}\n\n{q3}"
             st.session_state.question_round = 3
             return combined
     else:
@@ -314,13 +314,13 @@ def get_response_high_proc_low_dist(user_input):
         st.session_state.question_round = 1
 
     round_number = st.session_state.question_round
-    q2 = "\nI want to make sure you get the best possible support. What challenges or concerns are you facing right now?"
-    q3 = ("\nPeople in similar situations are receiving help, but I want to ensure we apply the right guidelines for you. "
+    q2 = "I want to make sure you get the best possible support. What challenges or concerns are you facing right now?"
+    q3 = ("People in similar situations are receiving help, but I want to ensure we apply the right guidelines for you. "
           "Can you tell me more about your current situation?")
 
     if round_number == 1:
         base = get_zip_response(user_input)
-        combined = f"{base} {q2}"
+        combined = f"{base}\n\n{q2}"
         st.session_state.question_round = 2
         return combined
     elif round_number == 2:
@@ -328,7 +328,7 @@ def get_response_high_proc_low_dist(user_input):
         if re.fullmatch(r'\d{5}', user_input.strip()):
             base = get_zip_response(user_input)
             # Keep the same prompt to allow a proper input
-            combined = f"{base} {q2}"
+            combined = f"{base}\n\n{q2}"
             return combined
         else:
             base = request_response_proc(user_input)
@@ -358,8 +358,8 @@ def get_response_low_proc_high_dist(user_input):
         st.session_state.question_round = 1
 
     round_number = st.session_state.question_round
-    q2 = ("\nHow has the flood affected you or your household, and what kind of support would be most helpful right now?")
-    q3 = ("\nIs there anything urgent that you or someone in your household is dealing with—such as medical concerns, "
+    q2 = ("How has the flood affected you or your household, and what kind of support would be most helpful right now?")
+    q3 = ("Is there anything urgent that you or someone in your household is dealing with—such as medical concerns, "
           "mobility challenges, or young children needing special care?")
 
     if round_number == 1:
@@ -372,11 +372,11 @@ def get_response_low_proc_high_dist(user_input):
         if re.fullmatch(r'\d{5}', user_input.strip()):
             base = get_zip_response(user_input)
             # Keep the same prompt to allow a proper input
-            combined = f"{base} {q2}"
+            combined = f"{base}\n\n{q2}"
             return combined
         else:
             base = request_response_dist(user_input)
-            combined = f"{base} {q3}"
+            combined = f"{base}\n\n{q3}"
             st.session_state.question_round = 3
             return combined
     else:
@@ -403,14 +403,14 @@ def get_response_high_proc_high_dist(user_input):
         st.session_state.question_round = 1
 
     round_number = st.session_state.question_round
-    q2 = ("\nI want to make sure you get the right type of assistance for your situation. "
+    q2 = ("I want to make sure you get the right type of assistance for your situation. "
           "Can you tell me more about how the flood has affected you and what support would help most?")
-    q3 = ("\nTo keep things fair and consistent, we are prioritizing individuals with urgent needs while making sure everyone gets the support they need. "
+    q3 = ("To keep things fair and consistent, we are prioritizing individuals with urgent needs while making sure everyone gets the support they need. "
           "Is there anything urgent—such as medical concerns, mobility challenges, or young children needing care—that we should address first?")
 
     if round_number == 1:
         base = get_zip_response(user_input)
-        combined = f"{base} {q2}"
+        combined = f"{base}\n\n{q2}"
         st.session_state.question_round = 2
         return combined
     elif round_number == 2:
@@ -418,7 +418,7 @@ def get_response_high_proc_high_dist(user_input):
         if re.fullmatch(r'\d{5}', user_input.strip()):
             base = get_zip_response(user_input)
             # Keep the same prompt to allow a proper input
-            combined = f"{base} {q2}"
+            combined = f"{base}\n\n{q2}"
             return combined
         else:
             base = request_response_both(user_input)
