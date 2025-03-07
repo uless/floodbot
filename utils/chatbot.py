@@ -332,7 +332,7 @@ def get_response_high_proc_low_dist(user_input):
             return combined
         else:
             base = request_response_proc(user_input)
-            combined = f"{base} {q3}"
+            combined = f"{base}\n\n{q3}"
             st.session_state.question_round = 3
             return combined   
     else:
@@ -364,7 +364,7 @@ def get_response_low_proc_high_dist(user_input):
 
     if round_number == 1:
         base = get_zip_response(user_input)
-        combined = f"{base} {q2}"
+        combined = f"{base}\n\n{q2}"
         st.session_state.question_round = 2
         return combined
     elif round_number == 2:
