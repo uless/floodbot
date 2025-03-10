@@ -116,6 +116,8 @@ SYSTEM_PROMPT_BOTH = (
 
 # Helper to add a message to conversation history
 def add_to_history(role, content):
+    if "conversation_history" not in st.session_state:
+        st.session_state.conversation_history = []
     st.session_state.conversation_history.append({"role": role, "content": content})
 
 # Updated request_response functions (with context memory) remain as before:
