@@ -204,35 +204,22 @@ def main():
 
         # Accept user input
         if user_input := st.chat_input(chat_placeholder):
-            # Add user message to chat history
+            # Add user message to chat history for display
             st.session_state.messages.append({"role": "user", "content": user_input})
-            # Display user message in chat message container
             with st.chat_message("user"):
                 st.markdown(f'<div class="user-message">{user_input}</div>', unsafe_allow_html=True)
-        
-            for message in st.session_state.messages:
-                # Display assistant response in chat message container
-
-                #avatars='chatbot_avatar.png'
-                with st.chat_message("assistant",avatar=st.session_state['avatars']):
-          
-                    response_gen = get_response_high_proc_high_dist(user_input)
-                    response = st.markdown(f'<div class="assistant-message">{response_gen}</div>', unsafe_allow_html=True)
-            
-                    # Add assistant response to chat history
-                    st.session_state.messages.append({"role": "assistant", "content": response_gen})
-            
-                    # Modify prompt
-                    modify_prompt(user_input, response_gen)
-
-                    # Modify chat history
-                    modify_chat_history(user_input, response_gen)
-
-                    # Increment response count
-                    st.session_state['response_count'] += 1
-
-                    # Rerun page
-                    st.experimental_rerun()
+    
+            # Get the assistant's response once (no loop over messages)
+            with st.chat_message("assistant", avatar=st.session_state['avatars']):
+                response_gen = get_response_high_proc_high_dist(user_input)
+                st.markdown(f'<div class="assistant-message">{response_gen}</div>', unsafe_allow_html=True)
+                # Append the assistant's response to both histories
+                st.session_state.messages.append({"role": "assistant", "content": response_gen})
+                # Also update conversation history if necessary (e.g., via modify_prompt / modify_chat_history)
+                modify_prompt(user_input, response_gen)
+                modify_chat_history(user_input, response_gen)
+                st.session_state['response_count'] += 1
+                st.experimental_rerun()
                 
         # Update session status
         finish_button()
