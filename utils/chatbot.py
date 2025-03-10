@@ -122,7 +122,7 @@ def add_to_history(role, content):
 
 # Updated request_response functions (with context memory) remain as before:
 def request_response_base(user_input):
-    system_prompt = SYSTEM_PROMPT_BASE
+    #system_prompt = SYSTEM_PROMPT_BASE
     
     # Prepare and append user input for API call.
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response.'
@@ -149,7 +149,7 @@ def request_response_base(user_input):
 
 # Updated request_response_dist with context memory
 def request_response_dist(user_input):
-    system_prompt = SYSTEM_PROMPT_DISTRIBUTIVE
+    #system_prompt = SYSTEM_PROMPT_DISTRIBUTIVE
 
     
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response. You must follow a high distributive justice response as initially instructed.'
@@ -175,7 +175,7 @@ def request_response_dist(user_input):
     return response_content
 
 def request_response_proc(user_input):
-    system_prompt = SYSTEM_PROMPT_PROCEDURAL
+    #system_prompt = SYSTEM_PROMPT_PROCEDURAL
     
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response. You must follow a high procedural justice response as initially instructed.'
     add_to_history("user", user_prompt)
@@ -200,7 +200,7 @@ def request_response_proc(user_input):
     return response_content
 
 def request_response_both(user_input):
-    system_prompt = SYSTEM_PROMPT_BOTH
+    #system_prompt = SYSTEM_PROMPT_BOTH
     
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response. You must follow a high distributive justice and high procedural justice response as initially instructed.'
     add_to_history("user", user_prompt)
@@ -240,6 +240,8 @@ def get_response_control(user_input):
     """
     if "question_round" not in st.session_state:
         st.session_state.question_round = 1
+    if "conversation_history" not in st.session_state:
+        st.session_state.conversation_history = [{"role": "system", "content": SYSTEM_PROMPT_BASE}]
 
     q2 = "What do you need?"
     q3 = "Anything else?"
@@ -280,6 +282,8 @@ def get_response_high_proc_low_dist(user_input):
     """
     if "question_round" not in st.session_state:
         st.session_state.question_round = 1
+    if "conversation_history" not in st.session_state:
+        st.session_state.conversation_history = [{"role": "system", "content": SYSTEM_PROMPT_PROCEDURAL}]
 
     q2 = "I want to make sure you get the best possible support. What challenges or concerns are you facing right now?"
     q3 = ("People in similar situations are receiving help, but I want to ensure we apply the right guidelines for you. "
@@ -323,6 +327,8 @@ def get_response_low_proc_high_dist(user_input):
     """
     if "question_round" not in st.session_state:
         st.session_state.question_round = 1
+    if "conversation_history" not in st.session_state:
+        st.session_state.conversation_history = [{"role": "system", "content": SYSTEM_PROMPT_DISTRIBUTIVE}]
 
     q2 = "How has the flood affected you or your household, and what kind of support would be most helpful right now?"
     q3 = ("Is there anything urgent that you or someone in your household is dealing with—such as medical concerns, "
@@ -367,6 +373,8 @@ def get_response_high_proc_high_dist(user_input):
     """
     if "question_round" not in st.session_state:
         st.session_state.question_round = 1
+    if "conversation_history" not in st.session_state:
+        st.session_state.conversation_history = [{"role": "system", "content": SYSTEM_PROMPT_BOTH}]
 
     q2 = ("I want to make sure you get the right type of assistance for your situation. "
           "Can you tell me more about how the flood has affected you and what support would help most?")
