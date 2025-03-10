@@ -122,14 +122,18 @@ def ensure_conversation(system_prompt):
         st.session_state.conversation_history = [{"role": "system", "content": system_prompt}]
 
 
-# Updated request_response_base with context memory
+# Helper to add a message to conversation history
+def add_to_history(role, content):
+    st.session_state.conversation_history.append({"role": role, "content": content})
+
+# Updated request_response functions (with context memory) remain as before:
 def request_response_base(user_input):
     system_prompt = SYSTEM_PROMPT_BASE
     ensure_conversation(system_prompt)
     
-    # Create a user prompt that includes the question.
+    # Prepare and append user input for API call.
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response.'
-    st.session_state.conversation_history.append({"role": "user", "content": user_prompt})
+    add_to_history("user", user_prompt)
     
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
@@ -147,7 +151,7 @@ def request_response_base(user_input):
             response_content += chunk_content
             message_placeholder.write(response_content)
     
-    st.session_state.conversation_history.append({"role": "assistant", "content": response_content})
+    add_to_history("assistant", response_content)
     return response_content
 
 # Updated request_response_dist with context memory
@@ -156,7 +160,7 @@ def request_response_dist(user_input):
     ensure_conversation(system_prompt)
     
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response. You must follow a high distributive justice response as initially instructed.'
-    st.session_state.conversation_history.append({"role": "user", "content": user_prompt})
+    add_to_history("user", user_prompt)
     
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
@@ -174,16 +178,15 @@ def request_response_dist(user_input):
             response_content += chunk_content
             message_placeholder.write(response_content)
     
-    st.session_state.conversation_history.append({"role": "assistant", "content": response_content})
+    add_to_history("assistant", response_content)
     return response_content
 
-# Updated request_response_proc with context memory
 def request_response_proc(user_input):
     system_prompt = SYSTEM_PROMPT_PROCEDURAL
     ensure_conversation(system_prompt)
     
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response. You must follow a high procedural justice response as initially instructed.'
-    st.session_state.conversation_history.append({"role": "user", "content": user_prompt})
+    add_to_history("user", user_prompt)
     
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
@@ -201,16 +204,15 @@ def request_response_proc(user_input):
             response_content += chunk_content
             message_placeholder.write(response_content)
     
-    st.session_state.conversation_history.append({"role": "assistant", "content": response_content})
+    add_to_history("assistant", response_content)
     return response_content
 
-# Updated request_response_both with context memory
 def request_response_both(user_input):
     system_prompt = SYSTEM_PROMPT_BOTH
     ensure_conversation(system_prompt)
     
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response. You must follow a high distributive justice and high procedural justice response as initially instructed.'
-    st.session_state.conversation_history.append({"role": "user", "content": user_prompt})
+    add_to_history("user", user_prompt)
     
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
@@ -228,7 +230,7 @@ def request_response_both(user_input):
             response_content += chunk_content
             message_placeholder.write(response_content)
     
-    st.session_state.conversation_history.append({"role": "assistant", "content": response_content})
+    add_to_history("assistant", response_content)
     return response_content
 
 
@@ -236,40 +238,42 @@ def request_response_both(user_input):
 def get_response_control(user_input):
     """
     Control Condition: Low Procedural + Low Distributive
-
     Round 1:
-        - Generate a base reply using get_zip_response(user_input).
-        - Append the fixed text: "What do you need?"
+      - Use get_zip_response(user_input) to generate a fixed response.
+      - Append the fixed response and fixed follow-up question to conversation history.
     Round 2:
-        - Get the API response using request_response(user_input).
-        - Append the fixed text: "Anything else?"
+      - If input is a zipcode, repeat fixed answer and follow-up.
+      - Otherwise, call request_response_base (which now uses full conversation history).
     Round 3+:
-        - Continue with free conversation (simply return request_response(user_input)).
+      - Continue with free conversation.
     """
     if "question_round" not in st.session_state:
         st.session_state.question_round = 1
 
-    round_number = st.session_state.question_round
     q2 = "What do you need?"
     q3 = "Anything else?"
 
-    if round_number == 1:
+    if st.session_state.question_round == 1:
+        # Round 1: fixed response for zip code.
         base = get_zip_response(user_input)
-        combined = f"{base} {q2}"
+        # Record fixed answer as an assistant message.
+        add_to_history("assistant", base)
+        # Record fixed follow-up question as a user message.
+        add_to_history("user", q2)
         st.session_state.question_round = 2
-        return combined
-    elif round_number == 2:
-        # Check if the input is exactly a 5-digit zipcode
+        return f"{base} {q2}"
+    elif st.session_state.question_round == 2:
         if re.fullmatch(r'\d{5}', user_input.strip()):
             base = get_zip_response(user_input)
-            # Keep the same prompt to allow a proper input
-            combined = f"{base}\n\n{q2}"
-            return combined
+            add_to_history("assistant", base)
+            add_to_history("user", q2)
+            return f"{base}\n\n{q2}"
         else:
+            # Call the API and then append a fixed follow-up.
             base = request_response_base(user_input)
-            combined = f"{base}\n\n{q3}"
+            add_to_history("user", q3)
             st.session_state.question_round = 3
-            return combined
+            return f"{base}\n\n{q3}"
     else:
         return request_response_base(user_input)
 
@@ -277,43 +281,36 @@ def get_response_control(user_input):
 def get_response_high_proc_low_dist(user_input):
     """
     High Procedural + Low Distributive Condition
-
     Round 1:
-        - Use get_zip_response(user_input) to generate the base reply.
-        - Append the fixed text: 
-          "I want to make sure you get the best possible support. What challenges or concerns are you facing right now?"
+      - Use get_zip_response(user_input) to generate a fixed response.
+      - Append the fixed answer and fixed question to conversation history.
     Round 2:
-        - Get the API response using request_response(user_input).
-        - Append the fixed text: 
-          "People in similar situations are receiving help, but I want to ensure we apply the right guidelines for you. Can you tell me more about your current situation?"
-    Round 3+:
-        - Continue with free conversation.
+      - Similar to above, or if not a zipcode, then call request_response_proc.
     """
     if "question_round" not in st.session_state:
         st.session_state.question_round = 1
 
-    round_number = st.session_state.question_round
     q2 = "I want to make sure you get the best possible support. What challenges or concerns are you facing right now?"
     q3 = ("People in similar situations are receiving help, but I want to ensure we apply the right guidelines for you. "
           "Can you tell me more about your current situation?")
 
-    if round_number == 1:
+    if st.session_state.question_round == 1:
         base = get_zip_response(user_input)
-        combined = f"{base}\n\n{q2}"
+        add_to_history("assistant", base)
+        add_to_history("user", q2)
         st.session_state.question_round = 2
-        return combined
-    elif round_number == 2:
-        # Check if the input is exactly a 5-digit zipcode
+        return f"{base}\n\n{q2}"
+    elif st.session_state.question_round == 2:
         if re.fullmatch(r'\d{5}', user_input.strip()):
             base = get_zip_response(user_input)
-            # Keep the same prompt to allow a proper input
-            combined = f"{base}\n\n{q2}"
-            return combined
+            add_to_history("assistant", base)
+            add_to_history("user", q2)
+            return f"{base}\n\n{q2}"
         else:
             base = request_response_proc(user_input)
-            combined = f"{base}\n\n{q3}"
+            add_to_history("user", q3)
             st.session_state.question_round = 3
-            return combined   
+            return f"{base}\n\n{q3}"
     else:
         return request_response_proc(user_input)
 
@@ -336,28 +333,27 @@ def get_response_low_proc_high_dist(user_input):
     if "question_round" not in st.session_state:
         st.session_state.question_round = 1
 
-    round_number = st.session_state.question_round
-    q2 = ("How has the flood affected you or your household, and what kind of support would be most helpful right now?")
+    q2 = "How has the flood affected you or your household, and what kind of support would be most helpful right now?"
     q3 = ("Is there anything urgent that you or someone in your household is dealing with—such as medical concerns, "
           "mobility challenges, or young children needing special care?")
 
-    if round_number == 1:
+    if st.session_state.question_round == 1:
         base = get_zip_response(user_input)
-        combined = f"{base}\n\n{q2}"
+        add_to_history("assistant", base)
+        add_to_history("user", q2)
         st.session_state.question_round = 2
-        return combined
-    elif round_number == 2:
-        # Check if the input is exactly a 5-digit zipcode
+        return f"{base}\n\n{q2}"
+    elif st.session_state.question_round == 2:
         if re.fullmatch(r'\d{5}', user_input.strip()):
             base = get_zip_response(user_input)
-            # Keep the same prompt to allow a proper input
-            combined = f"{base}\n\n{q2}"
-            return combined
+            add_to_history("assistant", base)
+            add_to_history("user", q2)
+            return f"{base}\n\n{q2}"
         else:
             base = request_response_dist(user_input)
-            combined = f"{base}\n\n{q3}"
+            add_to_history("user", q3)
             st.session_state.question_round = 3
-            return combined
+            return f"{base}\n\n{q3}"
     else:
         return request_response_dist(user_input)
 
@@ -381,29 +377,28 @@ def get_response_high_proc_high_dist(user_input):
     if "question_round" not in st.session_state:
         st.session_state.question_round = 1
 
-    round_number = st.session_state.question_round
     q2 = ("I want to make sure you get the right type of assistance for your situation. "
           "Can you tell me more about how the flood has affected you and what support would help most?")
     q3 = ("To keep things fair and consistent, we are prioritizing individuals with urgent needs while making sure everyone gets the support they need. "
           "Is there anything urgent—such as medical concerns, mobility challenges, or young children needing care—that we should address first?")
 
-    if round_number == 1:
+    if st.session_state.question_round == 1:
         base = get_zip_response(user_input)
-        combined = f"{base}\n\n{q2}"
+        add_to_history("assistant", base)
+        add_to_history("user", q2)
         st.session_state.question_round = 2
-        return combined
-    elif round_number == 2:
-        # Check if the input is exactly a 5-digit zipcode
+        return f"{base}\n\n{q2}"
+    elif st.session_state.question_round == 2:
         if re.fullmatch(r'\d{5}', user_input.strip()):
             base = get_zip_response(user_input)
-            # Keep the same prompt to allow a proper input
-            combined = f"{base}\n\n{q2}"
-            return combined
+            add_to_history("assistant", base)
+            add_to_history("user", q2)
+            return f"{base}\n\n{q2}"
         else:
             base = request_response_both(user_input)
-            combined = f"{base} {q3}"
+            add_to_history("user", q3)
             st.session_state.question_round = 3
-            return combined
+            return f"{base}\n\n{q3}"
     else:
         return request_response_both(user_input)
 
