@@ -114,14 +114,6 @@ SYSTEM_PROMPT_BOTH = (
     "Timeliness – Acknowledge the importance of quick responses and, if necessary, provide updates on expected timelines."
 )
 
-
-# Helper function to ensure conversation history is initialized with the correct system prompt.
-def ensure_conversation(system_prompt):
-    # If there is no conversation or if the current conversation's system prompt is different, reinitialize it.
-    if "conversation_history" not in st.session_state or st.session_state.conversation_history[0]["content"] != system_prompt:
-        st.session_state.conversation_history = [{"role": "system", "content": system_prompt}]
-
-
 # Helper to add a message to conversation history
 def add_to_history(role, content):
     st.session_state.conversation_history.append({"role": role, "content": content})
@@ -129,7 +121,6 @@ def add_to_history(role, content):
 # Updated request_response functions (with context memory) remain as before:
 def request_response_base(user_input):
     system_prompt = SYSTEM_PROMPT_BASE
-    ensure_conversation(system_prompt)
     
     # Prepare and append user input for API call.
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response.'
@@ -157,7 +148,7 @@ def request_response_base(user_input):
 # Updated request_response_dist with context memory
 def request_response_dist(user_input):
     system_prompt = SYSTEM_PROMPT_DISTRIBUTIVE
-    ensure_conversation(system_prompt)
+
     
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response. You must follow a high distributive justice response as initially instructed.'
     add_to_history("user", user_prompt)
@@ -183,7 +174,6 @@ def request_response_dist(user_input):
 
 def request_response_proc(user_input):
     system_prompt = SYSTEM_PROMPT_PROCEDURAL
-    ensure_conversation(system_prompt)
     
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response. You must follow a high procedural justice response as initially instructed.'
     add_to_history("user", user_prompt)
@@ -209,7 +199,6 @@ def request_response_proc(user_input):
 
 def request_response_both(user_input):
     system_prompt = SYSTEM_PROMPT_BOTH
-    ensure_conversation(system_prompt)
     
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response. You must follow a high distributive justice and high procedural justice response as initially instructed.'
     add_to_history("user", user_prompt)
