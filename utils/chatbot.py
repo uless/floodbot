@@ -115,29 +115,30 @@ SYSTEM_PROMPT_BOTH = (
 )
 
 
-# The Real AI part of each conversation
+# Helper function to ensure conversation history is initialized with the correct system prompt.
+def ensure_conversation(system_prompt):
+    # If there is no conversation or if the current conversation's system prompt is different, reinitialize it.
+    if "conversation_history" not in st.session_state or st.session_state.conversation_history[0]["content"] != system_prompt:
+        st.session_state.conversation_history = [{"role": "system", "content": system_prompt}]
+
+
+# Updated request_response_base with context memory
 def request_response_base(user_input):
-    """
-    Base Condition (Neutral):
-    - Uses the global SYSTEM_PROMPT_BASE.
-    """
-    user_prompt = (
-        f'User\'s question: "{user_input}"\n\n'
-        "Provide a short response."
-    )
+    system_prompt = SYSTEM_PROMPT_BASE
+    ensure_conversation(system_prompt)
+    
+    # Create a user prompt that includes the question.
+    user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response.'
+    st.session_state.conversation_history.append({"role": "user", "content": user_prompt})
     
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT_BASE},
-            {"role": "user", "content": user_prompt}
-        ],
+        messages=st.session_state.conversation_history,
         temperature=0,
         max_tokens=500,
         stream=True
     )
-
-        # Stream and accumulate the response content.
+    
     response_content = ""
     message_placeholder = st.empty()
     for chunk in response:
@@ -145,31 +146,26 @@ def request_response_base(user_input):
         if chunk_content:
             response_content += chunk_content
             message_placeholder.write(response_content)
+    
+    st.session_state.conversation_history.append({"role": "assistant", "content": response_content})
     return response_content
 
+# Updated request_response_dist with context memory
 def request_response_dist(user_input):
-    """
-    Distributive Justice Condition:
-    - Uses the global SYSTEM_PROMPT_DISTRIBUTIVE.
-    - Emphasizes fairness, equity, and needs-based allocation.
-    """
-    user_prompt = (
-        f'User\'s question: "{user_input}"\n\n'
-        "Provide a short response. You must follow a high distributive justice response as initially instructed."
-    )
+    system_prompt = SYSTEM_PROMPT_DISTRIBUTIVE
+    ensure_conversation(system_prompt)
+    
+    user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response. You must follow a high distributive justice response as initially instructed.'
+    st.session_state.conversation_history.append({"role": "user", "content": user_prompt})
     
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT_DISTRIBUTIVE},
-            {"role": "user", "content": user_prompt}
-        ],
+        messages=st.session_state.conversation_history,
         temperature=0,
         max_tokens=500,
         stream=True
     )
-
-        # Stream and accumulate the response content.
+    
     response_content = ""
     message_placeholder = st.empty()
     for chunk in response:
@@ -177,32 +173,26 @@ def request_response_dist(user_input):
         if chunk_content:
             response_content += chunk_content
             message_placeholder.write(response_content)
-            
+    
+    st.session_state.conversation_history.append({"role": "assistant", "content": response_content})
     return response_content
 
+# Updated request_response_proc with context memory
 def request_response_proc(user_input):
-    """
-    Procedural Justice Condition:
-    - Uses the global SYSTEM_PROMPT_PROCEDURAL.
-    - Emphasizes transparency, voice, consistency, and fairness in the decision-making process.
-    """
-    user_prompt = (
-        f'User\'s question: "{user_input}"\n\n'
-        "Provide a short response. You must follow a high procedural justice response as initially instructed."
-    )
+    system_prompt = SYSTEM_PROMPT_PROCEDURAL
+    ensure_conversation(system_prompt)
+    
+    user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response. You must follow a high procedural justice response as initially instructed.'
+    st.session_state.conversation_history.append({"role": "user", "content": user_prompt})
     
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT_PROCEDURAL},
-            {"role": "user", "content": user_prompt}
-        ],
+        messages=st.session_state.conversation_history,
         temperature=0,
         max_tokens=500,
         stream=True
     )
-
-        # Stream and accumulate the response content.
+    
     response_content = ""
     message_placeholder = st.empty()
     for chunk in response:
@@ -210,38 +200,26 @@ def request_response_proc(user_input):
         if chunk_content:
             response_content += chunk_content
             message_placeholder.write(response_content)
-            
+    
+    st.session_state.conversation_history.append({"role": "assistant", "content": response_content})
     return response_content
 
+# Updated request_response_both with context memory
 def request_response_both(user_input):
-    """
-    Combined Distributive & Procedural Justice Condition:
-    - Uses SYSTEM_PROMPT_BOTH which incorporates both distributive and procedural justice principles.
-    - Retrieves relevant knowledge based on the user input.
-    - Constructs a user prompt with the question and the retrieved knowledge.
-    - Streams the API response using the "gpt-4o-mini" model.
-    """
-    print("request_response_both called with user_input:", user_input)
+    system_prompt = SYSTEM_PROMPT_BOTH
+    ensure_conversation(system_prompt)
     
-    # Construct the user prompt.
-    user_prompt = (
-        f'User\'s question: "{user_input}"\n\n'
-        "Provide a short response. You must follow a high distributive justice and high procedural justice response as initially instructed."
-    )
+    user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response. You must follow a high distributive justice and high procedural justice response as initially instructed.'
+    st.session_state.conversation_history.append({"role": "user", "content": user_prompt})
     
-    # Call the OpenAI API with the combined justice prompt.
     response = openai.ChatCompletion.create(
         model="gpt-4o-mini",
-        messages=[
-            {"role": "system", "content": SYSTEM_PROMPT_BOTH},
-            {"role": "user", "content": user_prompt}
-        ],
+        messages=st.session_state.conversation_history,
         temperature=0,
         max_tokens=500,
         stream=True
     )
     
-    # Stream and accumulate the response content.
     response_content = ""
     message_placeholder = st.empty()
     for chunk in response:
@@ -250,6 +228,7 @@ def request_response_both(user_input):
             response_content += chunk_content
             message_placeholder.write(response_content)
     
+    st.session_state.conversation_history.append({"role": "assistant", "content": response_content})
     return response_content
 
 
