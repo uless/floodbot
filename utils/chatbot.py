@@ -22,8 +22,12 @@ def get_location_from_zip(zip_code):
 def get_zip_response(zip_code):
     location = get_location_from_zip(zip_code)
     if location:
-        return f"I see you're also in {location}! "
-    return "It seems that you did not provide a recognized ZIP code, but there is flooding in many areas including yours! "
+        # Store the user's city if not already stored
+        if "user_city" not in st.session_state:
+            st.session_state.user_city = location
+            add_to_history("system", f"This user lives in {location}.")
+        return f"I see you're also in {location}!"
+    return "It seems that you did not provide a recognized ZIP code, but there is flooding in many areas including yours!"
 
 # Perform content filter to the response from chatbot
 def content_filter(content_to_classify):
