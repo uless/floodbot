@@ -8,7 +8,7 @@ import pgeocode
 import re
 from rapidfuzz import process
 
-minimum_responses = 5
+minimum_responses = 3
 warning_responses = 8
 maximum_responses = 10
 
