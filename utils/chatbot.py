@@ -237,7 +237,7 @@ def request_response_both(user_input):
     return response_content
 
 
-# Standard 3 questions for different conditions
+#Standard questions concating to the chatbot resopnses
 def get_response_control(user_input):
     """
     Control Condition: Low Procedural + Low Distributive
@@ -255,7 +255,7 @@ def get_response_control(user_input):
     if "conversation_history" not in st.session_state:
         st.session_state.conversation_history = [{"role": "system", "content": SYSTEM_PROMPT_BASE}]
 
-    q2 = ""
+    q2 = "What do you need?"
     q3 = ""
 
     if st.session_state.question_round == 1:
@@ -297,7 +297,7 @@ def get_response_high_proc_low_dist(user_input):
     if "conversation_history" not in st.session_state:
         st.session_state.conversation_history = [{"role": "system", "content": SYSTEM_PROMPT_PROCEDURAL}]
 
-    q2 = ""
+    q2 = "I want to make sure you get the best possible support. What challenges or concerns are you facing right now?"
     q3 = ""
 
     if st.session_state.question_round == 1:
@@ -341,7 +341,7 @@ def get_response_low_proc_high_dist(user_input):
     if "conversation_history" not in st.session_state:
         st.session_state.conversation_history = [{"role": "system", "content": SYSTEM_PROMPT_DISTRIBUTIVE}]
 
-    q2 = ""
+    q2 = "How has the flood affected you or your household, and what kind of support would be most helpful right now?"
     q3 = ""
 
     if st.session_state.question_round == 1:
@@ -386,7 +386,7 @@ def get_response_high_proc_high_dist(user_input):
     if "conversation_history" not in st.session_state:
         st.session_state.conversation_history = [{"role": "system", "content": SYSTEM_PROMPT_BOTH}]
 
-    q2 = ""
+    q2 = "I want to make sure you get the right type of assistance for your situation. Can you tell me more about how the flood has affected you and what support would help most?"
     q3 = ""
 
     if st.session_state.question_round == 1:
@@ -408,5 +408,3 @@ def get_response_high_proc_high_dist(user_input):
             return f"{base}\n\n{q3}"
     else:
         return request_response_both(user_input)
-
-
