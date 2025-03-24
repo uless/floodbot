@@ -255,8 +255,8 @@ def get_response_control(user_input):
     if "conversation_history" not in st.session_state:
         st.session_state.conversation_history = [{"role": "system", "content": SYSTEM_PROMPT_BASE}]
 
-    q2 = "What do you need?"
-    q3 = "Anything else?"
+    q2 = ""
+    q3 = ""
 
     if st.session_state.question_round == 1:
         # Round 1: fixed response for zip code.
@@ -297,9 +297,8 @@ def get_response_high_proc_low_dist(user_input):
     if "conversation_history" not in st.session_state:
         st.session_state.conversation_history = [{"role": "system", "content": SYSTEM_PROMPT_PROCEDURAL}]
 
-    q2 = "I want to make sure you get the best possible support. What challenges or concerns are you facing right now?"
-    q3 = ("People in similar situations are receiving help, but I want to ensure we apply the right guidelines for you. "
-          "Can you tell me more about your current situation?")
+    q2 = ""
+    q3 = ""
 
     if st.session_state.question_round == 1:
         base = get_zip_response(user_input)
@@ -342,9 +341,8 @@ def get_response_low_proc_high_dist(user_input):
     if "conversation_history" not in st.session_state:
         st.session_state.conversation_history = [{"role": "system", "content": SYSTEM_PROMPT_DISTRIBUTIVE}]
 
-    q2 = "How has the flood affected you or your household, and what kind of support would be most helpful right now?"
-    q3 = ("Is there anything urgent that you or someone in your household is dealing with—such as medical concerns, "
-          "mobility challenges, or young children needing special care?")
+    q2 = ""
+    q3 = ""
 
     if st.session_state.question_round == 1:
         base = get_zip_response(user_input)
@@ -388,10 +386,8 @@ def get_response_high_proc_high_dist(user_input):
     if "conversation_history" not in st.session_state:
         st.session_state.conversation_history = [{"role": "system", "content": SYSTEM_PROMPT_BOTH}]
 
-    q2 = ("I want to make sure you get the right type of assistance for your situation. "
-          "Can you tell me more about how the flood has affected you and what support would help most?")
-    q3 = ("To keep things fair and consistent, we are prioritizing individuals with urgent needs while making sure everyone gets the support they need. "
-          "Is there anything urgent—such as medical concerns, mobility challenges, or young children needing care—that we should address first?")
+    q2 = ""
+    q3 = ""
 
     if st.session_state.question_round == 1:
         base = get_zip_response(user_input)
