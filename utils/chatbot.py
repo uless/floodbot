@@ -7,6 +7,7 @@ import random
 import pgeocode
 import re
 from rapidfuzz import process
+from openai import OpenAI
 client = OpenAI()
 
 minimum_responses = 3
