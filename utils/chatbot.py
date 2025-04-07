@@ -174,7 +174,7 @@ def request_response_dist(user_input):
         model="gpt-4o-mini-search-preview",
         web_search_options={},
         messages=st.session_state.conversation_history,
-        temperature=0,
+        #temperature=0,
         max_tokens=500,
         stream=True
     )
