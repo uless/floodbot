@@ -141,7 +141,7 @@ def request_response_base(user_input):
     add_to_history("user", user_prompt)
     
     response = openai.ChatCompletion.create(
-        model="gpt-4o-mini",
+        model="gpt-4o-mini-search-preview",
         messages=st.session_state.conversation_history,
         temperature=0,
         max_tokens=500,
@@ -168,7 +168,7 @@ def request_response_dist(user_input):
     add_to_history("user", user_prompt)
     
     response = openai.ChatCompletion.create(
-        model="gpt-4o-mini",
+        model="gpt-4o-mini-search-preview",
         messages=st.session_state.conversation_history,
         temperature=0,
         max_tokens=500,
@@ -193,7 +193,7 @@ def request_response_proc(user_input):
     add_to_history("user", user_prompt)
     
     response = openai.ChatCompletion.create(
-        model="gpt-4o-mini",
+        model="gpt-4o-mini-search-preview",
         messages=st.session_state.conversation_history,
         temperature=0,
         max_tokens=500,
@@ -218,7 +218,7 @@ def request_response_both(user_input):
     add_to_history("user", user_prompt)
     
     response = openai.ChatCompletion.create(
-        model="gpt-4o-mini",
+        model="gpt-4o-mini-search-preview",
         messages=st.session_state.conversation_history,
         temperature=0,
         max_tokens=500,
