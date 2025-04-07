@@ -7,6 +7,7 @@ import random
 import pgeocode
 import re
 from rapidfuzz import process
+client = OpenAI()
 
 minimum_responses = 3
 warning_responses = 8
@@ -140,8 +141,9 @@ def request_response_base(user_input):
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response.'
     add_to_history("user", user_prompt)
     
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4o-mini-search-preview",
+        web_search_options={},
         messages=st.session_state.conversation_history,
         temperature=0,
         max_tokens=500,
@@ -167,8 +169,9 @@ def request_response_dist(user_input):
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response. You must follow a high distributive justice response as initially instructed.'
     add_to_history("user", user_prompt)
     
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4o-mini-search-preview",
+        web_search_options={},
         messages=st.session_state.conversation_history,
         temperature=0,
         max_tokens=500,
@@ -192,8 +195,9 @@ def request_response_proc(user_input):
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response. You must follow a high procedural justice response as initially instructed.'
     add_to_history("user", user_prompt)
     
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4o-mini-search-preview",
+        web_search_options={},
         messages=st.session_state.conversation_history,
         temperature=0,
         max_tokens=500,
@@ -217,8 +221,9 @@ def request_response_both(user_input):
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response. You must follow a high distributive justice and high procedural justice response as initially instructed.'
     add_to_history("user", user_prompt)
     
-    response = openai.ChatCompletion.create(
+    response = client.chat.completions.create(
         model="gpt-4o-mini-search-preview",
+        web_search_options={},
         messages=st.session_state.conversation_history,
         temperature=0,
         max_tokens=500,
