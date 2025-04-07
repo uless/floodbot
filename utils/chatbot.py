@@ -170,7 +170,7 @@ def request_response_dist(user_input):
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response. You must follow a high distributive justice response as initially instructed.'
     add_to_history("user", user_prompt)
     
-    response = openai.Completion.create(
+    response = openai.ChatCompletion.create(
         model="gpt-4o-mini-search-preview",
         web_search_options={},
         messages=st.session_state.conversation_history,
@@ -196,11 +196,11 @@ def request_response_proc(user_input):
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response. You must follow a high procedural justice response as initially instructed.'
     add_to_history("user", user_prompt)
     
-    response = openai.Completion.create(
+    response = openai.ChatCompletion.create(
         model="gpt-4o-mini-search-preview",
         web_search_options={},
         messages=st.session_state.conversation_history,
-        temperature=0,
+        #temperature=0,
         max_tokens=500,
         stream=True
     )
@@ -222,11 +222,11 @@ def request_response_both(user_input):
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response. You must follow a high distributive justice and high procedural justice response as initially instructed.'
     add_to_history("user", user_prompt)
     
-    response = openai.Completion.create(
+    response = openai.ChatCompletion.create(
         model="gpt-4o-mini-search-preview",
         web_search_options={},
         messages=st.session_state.conversation_history,
-        temperature=0,
+        #temperature=0,
         max_tokens=500,
         stream=True
     )
