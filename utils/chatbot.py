@@ -142,7 +142,7 @@ def request_response_base(user_input):
     user_prompt = f'User\'s question: "{user_input}"\n\nProvide a short response.'
     add_to_history("user", user_prompt)
     
-    response = openai.Completion.create(
+    response = openai.ChatCompletion.create(
         model="gpt-4o-mini-search-preview",
         web_search_options={},
         messages=st.session_state.conversation_history,
