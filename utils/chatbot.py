@@ -274,17 +274,17 @@ def get_response_control(user_input):
         st.session_state.question_round = 2
         return f"{base} {q2}"
     elif st.session_state.question_round == 2:
-        if re.fullmatch(r'\d{5}', user_input.strip()):
-            base = get_zip_response(user_input)
-            add_to_history("assistant", base)
-            add_to_history("user", q2)
-            return f"{base}\n\n{q2}"
-        else:
+        #if re.fullmatch(r'\d{5}', user_input.strip()):
+        #    base = get_zip_response(user_input)
+        #   add_to_history("assistant", base)
+        #    add_to_history("user", q2)
+        #    return f"{base}\n\n{q2}"
+        #else:
             # Call the API and then append a fixed follow-up.
-            base = request_response_base(user_input)
-            add_to_history("user", q3)
-            st.session_state.question_round = 3
-            return f"{base}\n\n{q3}"
+        base = request_response_base(user_input)
+        add_to_history("user", q3)
+        st.session_state.question_round = 3
+        return f"{base}\n\n{q3}"
     else:
         return request_response_base(user_input)
 
