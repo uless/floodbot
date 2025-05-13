@@ -244,7 +244,7 @@ def request_response_both(user_input):
 
 
 #Standard questions concating to the chatbot resopnses
-def get_response_control(user_input):
+def get_response_control_old(user_input): #archived old function
     """
     Control Condition: Low Procedural + Low Distributive
     Round 1:
@@ -287,6 +287,25 @@ def get_response_control(user_input):
         return f"{base}\n\n{q3}"
     else:
         return request_response_base(user_input)
+
+def get_response_control(user_input):
+    """
+    Simplified control condition: No ZIP code logic, no fixed question prompts.
+    Uses full conversation history with a base system prompt.
+    """
+    if "conversation_history" not in st.session_state:
+        st.session_state.conversation_history = [{"role": "system", "content": SYSTEM_PROMPT_BASE}]
+
+    # Add user's message to history
+    add_to_history("user", user_input)
+
+    # Generate assistant response
+    response = request_response_base(user_input)
+
+    # Add assistant response to history
+    add_to_history("assistant", response)
+
+    return response
 
 
 def get_response_high_proc_low_dist(user_input):
