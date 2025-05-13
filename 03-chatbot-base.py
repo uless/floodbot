@@ -161,7 +161,7 @@ def main():
         border-radius: 5px; 
         border: 1px solid #ccc;">
         If you have any questions, please do not hesitate to chat with Jamie, our <b>interactive chatbot</b>!<br><br>
-        Press 'Start chat' to begin. Once you start, please enter your <b>ZIP code</b>.
+        Press 'Start chat' to begin. 
 
     </div>
     """,
@@ -197,6 +197,9 @@ def main():
 
         if "messages" not in st.session_state or not st.session_state.messages:
             chat_placeholder = "If you have any questions, please do not hesitate to chat with Jamie!"
+        else:
+            chat_placeholder = "If you have any questions, please do not hesitate to chat with Jamie!"
+
 
         if "messages" not in st.session_state:
             st.session_state.messages = []
