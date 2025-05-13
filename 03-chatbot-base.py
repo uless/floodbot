@@ -177,14 +177,14 @@ def main():
         st.session_state.start_chat = False
 
     if not st.session_state.start_chat:
-    if st.button("Start chat"):
-        st.session_state.start_chat = True
-        st.session_state.messages = [{
-            "role": "assistant",
-            "content": "Hi, I’m Jamie, your flood safety assistant. How can I help you today?"
-        }]
-        # optional: initialize avatar
-        st.session_state['avatars'] = 'chatbot_avatar1.webp'
+        if st.button("Start chat"):
+            st.session_state.start_chat = True
+            st.session_state.messages = [{
+                "role": "assistant",
+                "content": "Hi, I’m Jamie, your flood safety assistant. How can I help you today?"
+            }]
+            # optional: initialize avatar
+            st.session_state['avatars'] = 'chatbot_avatar1.webp'
 
     if st.session_state.start_chat:
 
