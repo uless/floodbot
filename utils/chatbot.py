@@ -307,8 +307,7 @@ def get_response_control(user_input):
 
     return response
 
-
-def get_response_high_proc_low_dist(user_input):
+def get_response_high_proc_low_dist_old(user_input):
     """
     High Procedural + Low Distributive Condition
     Round 1:
@@ -345,8 +344,27 @@ def get_response_high_proc_low_dist(user_input):
     else:
         return request_response_proc(user_input)
 
+def get_response_high_proc_low_dist(user_input):
+    """
+    Simplified control condition: No ZIP code logic, no fixed question prompts.
+    Uses full conversation history with a base system prompt.
+    """
+    if "conversation_history" not in st.session_state:
+        st.session_state.conversation_history = [{"role": "system", "content": SYSTEM_PROMPT_PROCEDURAL}]
 
-def get_response_low_proc_high_dist(user_input):
+    # Add user's message to history
+    add_to_history("user", user_input)
+
+    # Generate assistant response
+    response = request_response_proc(user_input)
+
+    # Add assistant response to history
+    add_to_history("assistant", response)
+
+    return response
+
+
+def get_response_low_proc_high_dist_old(user_input):
     """
     Low Procedural + High Distributive Condition
 
@@ -389,8 +407,26 @@ def get_response_low_proc_high_dist(user_input):
     else:
         return request_response_dist(user_input)
 
+def get_response_low_proc_high_dist(user_input):
+    """
+    Simplified control condition: No ZIP code logic, no fixed question prompts.
+    Uses full conversation history with a base system prompt.
+    """
+    if "conversation_history" not in st.session_state:
+        st.session_state.conversation_history = [{"role": "system", "content": SYSTEM_PROMPT_DISTRIBUTIVE}]
 
-def get_response_high_proc_high_dist(user_input):
+    # Add user's message to history
+    add_to_history("user", user_input)
+
+    # Generate assistant response
+    response = request_response_dist(user_input)
+
+    # Add assistant response to history
+    add_to_history("assistant", response)
+
+    return response
+
+def get_response_high_proc_high_dist_old(user_input):
     """
     High Procedural + High Distributive Condition
 
@@ -433,3 +469,23 @@ def get_response_high_proc_high_dist(user_input):
             return f"{base}\n\n{q3}"
     else:
         return request_response_both(user_input)
+
+
+def get_response_high_proc_high_dist(user_input):
+    """
+    Simplified control condition: No ZIP code logic, no fixed question prompts.
+    Uses full conversation history with a base system prompt.
+    """
+    if "conversation_history" not in st.session_state:
+        st.session_state.conversation_history = [{"role": "system", "content": SYSTEM_PROMPT_BOTH}]
+
+    # Add user's message to history
+    add_to_history("user", user_input)
+
+    # Generate assistant response
+    response = request_response_both(user_input)
+
+    # Add assistant response to history
+    add_to_history("assistant", response)
+
+    return response
