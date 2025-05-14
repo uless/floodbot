@@ -147,7 +147,7 @@ def request_response_base(user_input):
         web_search_options={},
         messages=st.session_state.conversation_history,
         #temperature=0,
-        max_tokens=500,
+        max_tokens=300,
         stream=True
     )
     
@@ -175,7 +175,7 @@ def request_response_dist(user_input):
         web_search_options={},
         messages=st.session_state.conversation_history,
         #temperature=0,
-        max_tokens=500,
+        max_tokens=300,
         stream=True
     )
     
@@ -201,7 +201,7 @@ def request_response_proc(user_input):
         web_search_options={},
         messages=st.session_state.conversation_history,
         #temperature=0,
-        max_tokens=500,
+        max_tokens=300,
         stream=True
     )
     
@@ -227,7 +227,7 @@ def request_response_both(user_input):
         web_search_options={},
         messages=st.session_state.conversation_history,
         #temperature=0,
-        max_tokens=500,
+        max_tokens=300,
         stream=True
     )
     
