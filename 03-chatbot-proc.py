@@ -180,7 +180,13 @@ def main():
     if not st.session_state.start_chat:
         if st.button("Start chat"):
             st.session_state.start_chat = True
-    
+            st.session_state.messages = [{
+                "role": "assistant",
+                "content": "Hi, I’m Jamie, your flood safety assistant. How can I help you today?"
+            }]
+            # optional: initialize avatar
+            st.session_state['avatars'] = 'chatbot_avatar1.webp'
+
     if st.session_state.start_chat:
 
          # Initialize chat history
@@ -191,9 +197,19 @@ def main():
             st.session_state['avatars'] = 'chatbot_avatar1.webp'  # Set initial avatar
 
         if "messages" not in st.session_state or not st.session_state.messages:
-            chat_placeholder = "Can you tell me your ZIP code so I can check what resources are available in your area?"
+            chat_placeholder = "If you have any questions, please do not hesitate to chat with Jamie!"
         else:
             chat_placeholder = "If you have any questions, please do not hesitate to chat with Jamie!"
+
+
+        if "messages" not in st.session_state:
+            st.session_state.messages = []
+            st.session_state.messages.append({
+                "role": "assistant",
+                "content": "Hi, I’m Jamie, your flood safety assistant. How can I help you today?"
+            })
+            # Optional: Initialize avatar
+            st.session_state['avatars'] = 'chatbot_avatar1.webp'
 
         # Display chat messages from history on app rerun
         for message in st.session_state.messages:
