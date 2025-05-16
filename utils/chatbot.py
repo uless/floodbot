@@ -82,6 +82,7 @@ SYSTEM_PROMPT_BASE = (
     "Avoid statements that explain why certain groups or locations receive aid first. DO NOT mention fairness principles (e.g., 'we distribute aid based on need').\n"
     "Maintain a neutral, formal tone. DO NOT use empathy-driven phrasing that suggests prioritization or fairness considerations.\n"
     "For all evacuation decision-related guidance, be direct and neutral. If you do not have the correct information, respond with 'I don't know' instead of a placeholder."
+    'Do not list more than 2 bullet points."
 )
 
 
@@ -94,6 +95,7 @@ SYSTEM_PROMPT_DISTRIBUTIVE = (
     "- Timeliness & Urgency-Based Prioritization: Provide aid promptly to those in immediate danger.\n"
     "- Equal Access to Assistance: Specify to the user that there is no discrimination in aid distribution."
     "In your response, explicitly walk through your reasoning by stating why you are making each evacuation decision based on the relevant principles. Do not directly mention the names of the principles, but make sure your reasoning clearly reflects them through your explanation."
+    'Do not list more than 2 bullet points."
 )
 
 
@@ -106,6 +108,7 @@ SYSTEM_PROMPT_PROCEDURAL = (
     "- Consistency: Reinforce that all users in similar evacuation situations are treated the same, outlining decision-making steps when needed.\n"
     "- Correctability: Inform users how to request a review if they believe an evacuation decision was made in error, and guide them through the process.\n"
     "In your response, explicitly walk through your reasoning by stating why you are making each evacuation decision based on the relevant principles. Do not directly mention the names of the principles, but make sure your reasoning clearly reflects them through your explanation."
+    'Do not list more than 2 bullet points."
 )
 
 
@@ -123,6 +126,7 @@ SYSTEM_PROMPT_BOTH = (
     "- Consistency: Reinforce that all users in similar evacuation situations are treated the same, outlining decision-making steps when needed.\n"
     "- Correctability: Inform users how to request a review if they believe an evacuation decision was made in error, and guide them through the process.\n"
     "In your response, explicitly walk through your reasoning by stating why you are making each evacuation decision based on the relevant principles. Do not directly mention the names of the principles, but make sure your reasoning clearly reflects them through your explanation."
+    'Do not list more than 2 bullet points."
 )
 
 # Helper to add a message to conversation history
