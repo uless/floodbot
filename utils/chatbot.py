@@ -147,7 +147,7 @@ def request_response_base(user_input):
         model="gpt-4o-mini",
         #web_search_options={},
         messages=st.session_state.conversation_history,
-        temperature=0,
+        temperature=0.7,
         max_tokens=300,
         stream=True
     )
@@ -175,7 +175,7 @@ def request_response_dist(user_input):
         model="gpt-4o-mini",
         #web_search_options={},
         messages=st.session_state.conversation_history,
-        temperature=0,
+        temperature=0.7,
         max_tokens=300,
         stream=True
     )
@@ -201,7 +201,7 @@ def request_response_proc(user_input):
         model="gpt-4o-mini",
         #web_search_options={},
         messages=st.session_state.conversation_history,
-        temperature=0,
+        temperature=0.7,
         max_tokens=300,
         stream=True
     )
@@ -227,7 +227,7 @@ def request_response_both(user_input):
         model="gpt-4o-mini",
         #web_search_options={},
         messages=st.session_state.conversation_history,
-        temperature=0,
+        temperature=0.7,
         max_tokens=300,
         stream=True
     )
